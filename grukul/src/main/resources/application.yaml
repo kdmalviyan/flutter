@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: Grukul
+  data:
+    mongodb:
+      uri: mongodb://root:Admin1234@localhost:27017/authserver_local_db?authSource=admin
+      database: authserver_local_db

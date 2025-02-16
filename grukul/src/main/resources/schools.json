@@ -1,0 +1,38 @@
+[
+  {
+    "id": "5f8d0d55b54764421b7160a4",
+    "name": "Others",
+    "address": "123 Education Street, Springfield, ST 12345",
+    "grade": "A+",
+    "phone": "+1 (555) 123-4567",
+    "email": "admissions@springfieldhs.edu",
+    "website": "https://www.springfieldhs.edu",
+    "schoolCode": "OTHERS"
+  },
+  {
+    "id": "5f8d0d55b54764421b7160a3",
+    "name": "Springfield High School",
+    "address": "123 Education Street, Springfield, ST 12345",
+    "grade": "A+",
+    "phone": "+1 (555) 123-4567",
+    "email": "admissions@springfieldhs.edu",
+    "website": "https://www.springfieldhs.edu",
+    "schoolCode": "SPFDHS",
+    "establishedYear": 1995,
+    "schoolType": "PUBLIC",
+    "principal": "Jane Doe",
+    "totalStudents": 1450,
+    "accreditation": true,
+    "facilities": [
+      "Science Lab",
+      "Library",
+      "Sports Complex",
+      "Computer Lab"
+    ],
+    "contact": {
+      "name": "John Smith",
+      "position": "Admissions Officer",
+      "email": "john.smith@springfieldhs.edu"
+    }
+  }
+]
