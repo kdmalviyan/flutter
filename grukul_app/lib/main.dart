@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mcq_learning_app/screens/pre_login_screen.dart';
-import 'package:mcq_learning_app/screens/user_home_screen.dart';
+import 'package:mcq_learning_app/screens/student_dashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       ),
       home: token == null
           ? const PreLoginScreen(title: 'MCQ Home Page')
-          : UserHomeScreen(token: token!),
+          : StudentDashboardScreen(token: token!),
     );
   }
 }

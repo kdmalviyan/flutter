@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:mcq_learning_app/apis/constants.dart';
-import 'package:mcq_learning_app/screens/user_home_screen.dart';
+import 'package:mcq_learning_app/apis/api-constants.dart';
+import 'package:mcq_learning_app/screens/student_dashboard.dart';
 import 'dart:convert';
 
 import 'package:mcq_learning_app/shared_preferences/tenant_config.dart';
@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => UserHomeScreen(token: token),
+            builder: (context) => StudentDashboardScreen(token: token),
           ),
         );
       } else {
