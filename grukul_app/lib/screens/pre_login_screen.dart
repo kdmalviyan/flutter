@@ -5,6 +5,7 @@ import 'dart:convert';
 
 import 'package:mcq_learning_app/screens/login_screen.dart';
 import 'package:mcq_learning_app/shared_preferences/tenant_config.dart';
+import 'package:mcq_learning_app/helper/app_colors.dart';
 
 class PreLoginScreen extends StatefulWidget {
   final String title;
@@ -18,6 +19,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
   List<String> schools = [];
   String? selectedSchool;
   bool isLoading = true;
+
   @override
   void initState() {
     super.initState();
@@ -37,31 +39,25 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
           isLoading = false;
         });
       } else {
-        setState(() {
-          isLoading = false;
-        });
+        setState(() => isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Failed to fetch schools')),
         );
       }
     } catch (e) {
-      setState(() {
-        isLoading = false;
-      });
+      setState(() => isLoading = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error: $e'),
-          duration: Duration(seconds: 10),
-        ),
+        SnackBar(content: Text('Error: $e')),
       );
     }
   }
 
   Future<void> _fetchTenantConfig(String? schoolName) async {
+    if (schoolName == null) return;
     try {
       final response = await http.get(
         Uri.parse(
-            '${await ApiConstants.getApiBaseUrl()}/api/v1/schools/name/$schoolName'),
+            "${await ApiConstants.getApiBaseUrl()}/api/v1/schools/name/$schoolName"),
       );
 
       if (response.statusCode == 200) {
@@ -99,11 +95,11 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Colors.blue.shade800, Colors.purple.shade600],
+            colors: [AppColors.gradientStart, AppColors.gradientEnd],
           ),
         ),
         child: Center(
@@ -112,23 +108,19 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   'Welcome to MCQ Learning',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                  style: Theme.of(context).textTheme.displayLarge,
                 ),
                 const SizedBox(height: 20),
                 if (isLoading)
-                  const CircularProgressIndicator(color: Colors.white)
+                  const CircularProgressIndicator(color: AppColors.white)
                 else
                   DropdownButtonFormField<String>(
                     value: selectedSchool,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.white.withOpacity(0.8),
+                      fillColor: AppColors.white.withOpacity(0.8),
                       hintText: 'Select School',
                       prefixIcon: const Icon(Icons.school),
                       border: OutlineInputBorder(
@@ -143,16 +135,14 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
                       );
                     }).toList(),
                     onChanged: (value) {
-                      setState(() {
-                        selectedSchool = value;
-                      });
+                      setState(() => selectedSchool = value);
                     },
                   ),
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () => _fetchTenantConfig(selectedSchool),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange.shade600,
+                    backgroundColor: AppColors.statCardOrange,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 40, vertical: 15),
                     shape: RoundedRectangleBorder(
@@ -161,7 +151,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
                   ),
                   child: const Text(
                     'Continue',
-                    style: TextStyle(fontSize: 18, color: Colors.white),
+                    style: TextStyle(fontSize: 18, color: AppColors.white),
                   ),
                 ),
               ],

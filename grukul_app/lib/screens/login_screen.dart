@@ -3,9 +3,9 @@ import 'package:http/http.dart' as http;
 import 'package:mcq_learning_app/apis/api-constants.dart';
 import 'package:mcq_learning_app/screens/student_dashboard.dart';
 import 'dart:convert';
-
 import 'package:mcq_learning_app/shared_preferences/tenant_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mcq_learning_app/helper/app_colors.dart';
 
 class LoginScreen extends StatefulWidget {
   final TenantConfig tenantConfig;
@@ -93,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Colors.blue.shade800, Colors.purple.shade600],
+            colors: [AppColors.gradientStart, AppColors.gradientEnd],
           ),
         ),
         child: Center(
@@ -121,24 +121,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                       ),
                     ),
-                    // backgroundImage:
-                    //     AssetImage('assets/images/$schoolCode.png'),
                   ),
                   const SizedBox(height: 20),
                   Text(
                     'Login to ${widget.tenantConfig.name}',
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                    style: Theme.of(context).textTheme.displayLarge,
                   ),
                   const SizedBox(height: 20),
                   TextField(
                     controller: _usernameController,
+                    style: const TextStyle(color: AppColors.black),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.white.withOpacity(0.8),
+                      fillColor: AppColors.white,
                       hintText: 'Username',
                       prefixIcon: const Icon(Icons.person),
                       border: OutlineInputBorder(
@@ -150,10 +145,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 15),
                   TextField(
                     controller: _passwordController,
+                    style: const TextStyle(color: AppColors.black),
                     obscureText: true,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.white.withOpacity(0.8),
+                      fillColor: AppColors.white,
                       hintText: 'Password',
                       prefixIcon: const Icon(Icons.lock),
                       border: OutlineInputBorder(
@@ -164,11 +160,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 20),
                   _isLoading
-                      ? const CircularProgressIndicator(color: Colors.white)
+                      ? const CircularProgressIndicator(color: AppColors.white)
                       : ElevatedButton(
                           onPressed: _handleLogin,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.orange.shade600,
+                            backgroundColor: AppColors.statCardOrange,
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 40, vertical: 15),
                             shape: RoundedRectangleBorder(
@@ -177,7 +173,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           child: const Text(
                             'Login',
-                            style: TextStyle(fontSize: 18, color: Colors.white),
+                            style:
+                                TextStyle(fontSize: 18, color: AppColors.white),
                           ),
                         ),
                 ],

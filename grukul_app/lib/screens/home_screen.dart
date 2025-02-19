@@ -1,19 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:mcq_learning_app/apis/dashboard.dart';
+import 'package:mcq_learning_app/helper/app_colors.dart';
 
-class HomeScreen extends StatelessWidget {
-  final List<double> scores;
-  final List<String> leaderboardData;
-  final bool isLoading;
-  final Future<void> Function() onRefresh;
+class HomeScreen extends StatefulWidget {
+  final String token;
 
   const HomeScreen({
     Key? key,
-    required this.scores,
-    required this.leaderboardData,
-    required this.isLoading,
-    required this.onRefresh,
+    required this.token,
   }) : super(key: key);
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  List<double> scores = [];
+  List<String> leaderboardData = [];
+  bool isLoading = true;
+  Map<String, dynamic> learningStats = {};
+  List<Map<String, dynamic>> quizzes = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchData();
+  }
+
+  Future<void> _fetchData() async {
+    try {
+      // Fetch learning stats
+      final stats = await DashboardApi.getLearningStats(widget.token);
+      final progress = await DashboardApi.getProgressOverTime(widget.token);
+      final quizzesData = await DashboardApi.getLast10Quizzes(widget.token);
+
+      setState(() {
+        learningStats = stats;
+        scores = progress.map<double>((e) => e['score'].toDouble()).toList();
+        quizzes = quizzesData.cast<Map<String, dynamic>>();
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to load data: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,39 +58,38 @@ class HomeScreen extends StatelessWidget {
     }).toList();
 
     return RefreshIndicator(
-      onRefresh: onRefresh,
+      onRefresh: _fetchData,
       child: _buildHomeContent(spots),
     );
   }
 
   Widget _buildHomeContent(List<FlSpot> spots) {
+    final theme = Theme.of(context); // Access the theme
+
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0xFF1565C0), // Equivalent to Colors.blue.shade800
-            Color(0xFF6A1B9A), // Equivalent to Colors.purple.shade600
+            AppColors.gradientStart, // Use custom gradient start color
+            AppColors.gradientEnd, // Use custom gradient end color
           ],
         ),
       ),
       child: SingleChildScrollView(
-        physics:
-            const AlwaysScrollableScrollPhysics(), // Ensure it's always scrollable
+        physics: const AlwaysScrollableScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
-              // Welcome Message
-              const Text(
+              Text(
                 'Welcome Back, Student!',
-                style: TextStyle(fontSize: 18, color: Colors.white),
+                style: theme.textTheme.displayLarge, // Use theme text style
               ),
               const SizedBox(height: 20),
-              // Quick Access Buttons
               Row(
                 children: [
                   _buildQuickAccessButton(
@@ -75,43 +110,44 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              // Learning Stats
-              const Text(
+              Text(
                 'Your Learning Stats',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+                style: theme.textTheme.displayLarge, // Use theme text style
               ),
               const SizedBox(height: 10),
               Row(
                 children: [
-                  _buildStatCard('Completed MCQs', '25', Colors.blue),
+                  _buildStatCard(
+                      'Total Quizzes',
+                      learningStats['totalQuizzes'].toString(),
+                      AppColors.statCardBlue),
                   const SizedBox(width: 10),
-                  _buildStatCard('Correct Answers', '80%', Colors.green),
+                  _buildStatCard(
+                      'Correct Answers',
+                      learningStats['correctAnswers'].toString(),
+                      AppColors.statCardGreen),
                   const SizedBox(width: 10),
-                  _buildStatCard('Rank', '#5', Colors.orange),
+                  _buildStatCard(
+                      'Average Score',
+                      '${learningStats['averageScore']}%',
+                      AppColors.statCardOrange),
                 ],
               ),
               const SizedBox(height: 20),
-              // Progress Chart
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: AppColors.white
+                      .withOpacity(0.2), // Use custom white color
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       'Progress Over Time',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                      style:
+                          theme.textTheme.displayLarge, // Use theme text style
                     ),
                     const SizedBox(height: 10),
                     SizedBox(
@@ -136,13 +172,10 @@ class HomeScreen extends StatelessWidget {
                                 showTitles: true,
                                 reservedSize: 30,
                                 getTitlesWidget: (value, meta) {
-                                  // Display week numbers on the X-axis
                                   return Text(
-                                    'W${value.toInt() + 1}',
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                    ),
+                                    'Day ${value.toInt() + 1}',
+                                    style: theme.textTheme
+                                        .bodySmall, // Use theme text style
                                   );
                                 },
                               ),
@@ -152,13 +185,10 @@ class HomeScreen extends StatelessWidget {
                                 showTitles: true,
                                 reservedSize: 30,
                                 getTitlesWidget: (value, meta) {
-                                  // Display scores on the Y-axis
                                   return Text(
                                     value.toInt().toString(),
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                    ),
+                                    style: theme.textTheme
+                                        .bodySmall, // Use theme text style
                                   );
                                 },
                               ),
@@ -177,13 +207,15 @@ class HomeScreen extends StatelessWidget {
                             verticalInterval: 1,
                             getDrawingHorizontalLine: (value) {
                               return FlLine(
-                                color: Colors.white.withOpacity(0.1),
+                                color: AppColors.white
+                                    .withOpacity(0.1), // Use custom white color
                                 strokeWidth: 1,
                               );
                             },
                             getDrawingVerticalLine: (value) {
                               return FlLine(
-                                color: Colors.white.withOpacity(0.1),
+                                color: AppColors.white
+                                    .withOpacity(0.1), // Use custom white color
                                 strokeWidth: 1,
                               );
                             },
@@ -195,23 +227,20 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              // Leaderboard
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: AppColors.white
+                      .withOpacity(0.2), // Use custom white color
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Leaderboard',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                    Text(
+                      'Recent Quizzes',
+                      style:
+                          theme.textTheme.displayLarge, // Use theme text style
                     ),
                     const SizedBox(height: 10),
                     isLoading
@@ -219,22 +248,27 @@ class HomeScreen extends StatelessWidget {
                         : ListView.separated(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            itemCount: leaderboardData.length,
-                            separatorBuilder: (context, index) =>
-                                const Divider(color: Colors.white54),
+                            itemCount: quizzes.length,
+                            separatorBuilder: (context, index) => Divider(
+                                color: AppColors.white.withOpacity(
+                                    0.5)), // Use custom white color
                             itemBuilder: (context, index) {
+                              final quiz = quizzes[index];
                               return ListTile(
                                 leading: CircleAvatar(
-                                  backgroundColor: Colors.blue.shade200,
+                                  backgroundColor: AppColors
+                                      .blueShade200, // Use custom blue color
                                   child: Text('${index + 1}'),
                                 ),
                                 title: Text(
-                                  leaderboardData[index],
-                                  style: const TextStyle(color: Colors.white),
+                                  quiz['title'],
+                                  style: theme.textTheme
+                                      .bodyLarge, // Use theme text style
                                 ),
                                 subtitle: Text(
-                                  'Score: ${90 - index * 5}%',
-                                  style: const TextStyle(color: Colors.white70),
+                                  'Score: ${quiz['score']}%',
+                                  style: theme.textTheme
+                                      .bodyMedium, // Use theme text style
                                 ),
                               );
                             },
@@ -260,18 +294,19 @@ class HomeScreen extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.2),
+            color: AppColors.white.withOpacity(0.2), // Use custom white color
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
             children: [
-              Icon(icon, size: 40, color: Colors.white),
+              Icon(icon,
+                  size: 40, color: AppColors.white), // Use custom white color
               const SizedBox(height: 10),
               Text(
                 label,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
-                  color: Colors.white,
+                  color: AppColors.white, // Use custom white color
                 ),
               ),
             ],
@@ -293,15 +328,17 @@ class HomeScreen extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(fontSize: 16, color: Colors.white),
+                style: TextStyle(
+                    fontSize: 16,
+                    color: AppColors.white), // Use custom white color
               ),
               const SizedBox(height: 10),
               Text(
                 value,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: AppColors.white, // Use custom white color
                 ),
               ),
             ],

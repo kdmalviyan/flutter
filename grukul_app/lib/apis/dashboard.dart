@@ -52,4 +52,28 @@ class DashboardApi {
       throw Exception('Failed to load last 10 quizzes');
     }
   }
+
+  static Future<List<Map<String, dynamic>>> getLeaderboardData(
+    String token, {
+    required int page,
+    required int limit,
+    String searchQuery = '',
+    String sortBy = 'averageScore',
+  }) async {
+    final response = await http.get(
+      Uri.parse(
+          '${await ApiConstants.getApiBaseUrl()}/api/v1/student/dashboard/leaderboard?page=$page&limit=$limit&searchQuery=$searchQuery&sortBy=$sortBy'),
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+    print("status code: ${response.statusCode}");
+    print("response: ${jsonDecode(response.body)}");
+
+    if (response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load leaderboard data');
+    }
+  }
 }
