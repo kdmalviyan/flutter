@@ -81,11 +81,24 @@ public class StudentDashboardController {
                         .name("Kanishka Singh")
                         .studentLearningStats(
                                 StudentLearningStats.builder()
-                                        .averageScore(85.5)
+                                        .averageScore(95.5)
                                         .studentId("80")
                                         .correctAnswers(120)
                                         .totalQuizzes(25)
                                         .incorrectAnswers(30)
+                                        .build())
+                        .build(),
+                Student.builder()
+                        .studentId("24")
+                        .image("http://image.com/images/80.png")
+                        .name("Rayan")
+                        .studentLearningStats(
+                                StudentLearningStats.builder()
+                                        .studentId("24")
+                                        .averageScore(92)
+                                        .correctAnswers(89)
+                                        .totalQuizzes(7)
+                                        .incorrectAnswers(0)
                                         .build())
                         .build(),
                 Student.builder()
@@ -104,7 +117,7 @@ public class StudentDashboardController {
                 Student.builder()
                         .studentId("24")
                         .image("http://image.com/images/80.png")
-                        .name("John Doe")
+                        .name("Shikha Rani")
                         .studentLearningStats(
                                 StudentLearningStats.builder()
                                         .studentId("24")

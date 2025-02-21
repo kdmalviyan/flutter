@@ -1,0 +1,38 @@
+[
+  {
+    "id": "quiz-1",
+    "title": "Basic Algebra Quiz",
+    "subject": "Math",
+    "class": "Class 9",
+    "level": "Easy",
+    "duration": 15,
+    "questionCount": 10,
+    "averageScore": 75.5,
+    "participants": 120,
+    "createdAt": "2023-10-01T10:00:00Z"
+  },
+  {
+    "id": "quiz-2",
+    "title": "World History Quiz",
+    "subject": "History",
+    "class": "Class 10",
+    "level": "Medium",
+    "duration": 20,
+    "questionCount": 15,
+    "averageScore": 65.0,
+    "participants": 85,
+    "createdAt": "2023-09-25T14:30:00Z"
+  },
+  {
+    "id": "quiz-3",
+    "title": "Advanced Physics Quiz",
+    "subject": "Science",
+    "class": "Class 12",
+    "level": "Hard",
+    "duration": 30,
+    "questionCount": 20,
+    "averageScore": 50.0,
+    "participants": 45,
+    "createdAt": "2023-09-20T08:15:00Z"
+  }
+]

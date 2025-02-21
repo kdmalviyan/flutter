@@ -67,13 +67,42 @@ class DashboardApi {
         'Authorization': 'Bearer $token',
       },
     );
-    print("status code: ${response.statusCode}");
-    print("response: ${jsonDecode(response.body)}");
 
     if (response.statusCode == 200) {
       return List<Map<String, dynamic>>.from(json.decode(response.body));
     } else {
       throw Exception('Failed to load leaderboard data');
+    }
+  }
+
+  static Future<Map<String, dynamic>> getQuizzes(
+    String token, {
+    String? classFilter,
+    String? subjectFilter,
+    String? levelFilter,
+    String? searchQuery,
+    String? sortBy,
+    int page = 0,
+    int limit = 10,
+  }) async {
+    final response = await http.get(
+      Uri.parse('${await ApiConstants.getApiBaseUrl()}/api/v1/quizzes/random?'
+          'class=$classFilter'
+          '&subject=$subjectFilter'
+          '&level=$levelFilter'
+          '&search=$searchQuery'
+          '&sortBy=$sortBy'
+          '&page=$page'
+          '&limit=$limit'),
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to load quizzes');
     }
   }
 }

@@ -1,0 +1,5 @@
+{
+"classes": ["Class 9", "Class 10", "Class 11", "Class 12"],
+"subjects": ["Math", "Science", "History", "English"],
+"levels": ["Easy", "Medium", "Hard"]
+}

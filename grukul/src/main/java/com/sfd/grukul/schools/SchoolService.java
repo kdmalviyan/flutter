@@ -3,7 +3,7 @@ package com.sfd.grukul.schools;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -17,12 +17,11 @@ import java.io.InputStream;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class SchoolService {
+    private final ReactiveMongoTemplate mongoTemplate;
+    private final ObjectMapper objectMapper;
 
-    @Autowired
-    private ReactiveMongoTemplate mongoTemplate;
-    @Autowired
-    private ObjectMapper objectMapper;
     private List<School> schools;
 
     @PostConstruct

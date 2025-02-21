@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mcq_learning_app/screens/pre_login_screen.dart';
+import 'package:mcq_learning_app/screens/quiz_listing_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'home_screen.dart';
-import 'quiz_screen.dart';
 import 'leaderboard_screen.dart';
 import 'package:mcq_learning_app/helper/app_colors.dart';
 
@@ -17,7 +17,7 @@ class StudentDashboardScreen extends StatefulWidget {
 
 class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
   int _selectedIndex = 0;
-  final List<String> _appBarTitles = ['Home', 'Quiz', 'Leaderboard'];
+  final List<String> _appBarTitles = ['Home', 'Quizzes', 'Leaderboard'];
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +121,7 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
       case 0:
         return HomeScreen(token: widget.token);
       case 1:
-        return const QuizScreen();
+        return QuizListingScreen(token: widget.token);
       case 2:
         return LeaderboardScreen(token: widget.token);
       default:
