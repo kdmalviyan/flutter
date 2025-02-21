@@ -48,7 +48,7 @@ public class QuizController {
             @RequestParam(value = "levelFilter", required = false) String levelFilter,
             @RequestParam(value = "searchQuery", required = false) String searchQuery,
             @RequestParam(value = "sortBy", required = false) String sortBy) {
-        log.info("Fetching quizzes with {}, {}, {}, {}, {},{},{}",
+        log.info("Fetching quizzes with {} {} {} {} {} {} {}",
         page, limit, classFilter, subjectFilter, levelFilter, searchQuery, sortBy);
         Flux<Quiz> quizzes = quizService.getRandomQuizzes();
         return quizzes

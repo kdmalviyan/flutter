@@ -243,7 +243,7 @@ class _QuizListingScreenState extends State<QuizListingScreen>
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment:
-                CrossAxisAlignment.start, // Align everything to the right
+                CrossAxisAlignment.start, // Align everything to the left
             children: [
               // Difficulty Filters
               _buildFilterSection(
@@ -309,7 +309,7 @@ class _QuizListingScreenState extends State<QuizListingScreen>
     required Function(String?) onFilterSelected,
   }) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start, // Align to the right
+      crossAxisAlignment: CrossAxisAlignment.start, // Align to the left
       children: [
         Text(
           title,
@@ -320,7 +320,7 @@ class _QuizListingScreenState extends State<QuizListingScreen>
         ),
         const SizedBox(height: 8),
         Wrap(
-          alignment: WrapAlignment.start, // Align chips to the right
+          alignment: WrapAlignment.start, // Align chips to the left
           spacing: 8,
           children: filters.map((filter) {
             final bool isSelected = selectedFilter == filter;

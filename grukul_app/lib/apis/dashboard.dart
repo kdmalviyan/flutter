@@ -85,12 +85,16 @@ class DashboardApi {
     int page = 0,
     int limit = 10,
   }) async {
+    print(classFilter);
+    print(subjectFilter);
+    print(levelFilter);
+    print(searchQuery);
     final response = await http.get(
       Uri.parse('${await ApiConstants.getApiBaseUrl()}/api/v1/quizzes/random?'
-          'class=$classFilter'
-          '&subject=$subjectFilter'
-          '&level=$levelFilter'
-          '&search=$searchQuery'
+          'classFilter=$classFilter'
+          '&subjectFilter=$subjectFilter'
+          '&levelFilter=$levelFilter'
+          '&searchQuery=$searchQuery'
           '&sortBy=$sortBy'
           '&page=$page'
           '&limit=$limit'),
