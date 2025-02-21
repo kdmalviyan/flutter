@@ -62,8 +62,7 @@ class _QuizListingScreenState extends State<QuizListingScreen>
           quizzes = quizzesData.cast<Map<String, dynamic>>();
           difficultyFilters = filtersData['difficulty']?.cast<String>() ?? [];
           subjectFilters = filtersData['subject']?.cast<String>() ?? [];
-          classFilters =
-              filtersData['class']?.cast<String>() ?? []; // New class filter
+          classFilters = filtersData['class']?.cast<String>() ?? [];
           isLoading = false;
         });
 
