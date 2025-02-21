@@ -242,8 +242,10 @@ class _QuizListingScreenState extends State<QuizListingScreen>
           padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment:
+                CrossAxisAlignment.start, // Align everything to the right
             children: [
+              // Difficulty Filters
               _buildFilterSection(
                 title: 'Difficulty',
                 filters: difficultyFilters,
@@ -254,7 +256,10 @@ class _QuizListingScreenState extends State<QuizListingScreen>
                   });
                 },
               ),
+
               const SizedBox(height: 16),
+
+              // Subject Filters
               _buildFilterSection(
                 title: 'Subject',
                 filters: subjectFilters,
@@ -265,7 +270,10 @@ class _QuizListingScreenState extends State<QuizListingScreen>
                   });
                 },
               ),
+
               const SizedBox(height: 16),
+
+              // Class Filters
               _buildFilterSection(
                 title: 'Class',
                 filters: classFilters,
@@ -276,11 +284,14 @@ class _QuizListingScreenState extends State<QuizListingScreen>
                   });
                 },
               ),
+
               const SizedBox(height: 16),
+
+              // Apply Button
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pop(context);
-                  _fetchQuizzes();
+                  Navigator.pop(context); // Close the modal
+                  _fetchQuizzes(); // Refresh quizzes with new filters
                 },
                 child: const Text('Apply Filters'),
               ),
@@ -298,7 +309,7 @@ class _QuizListingScreenState extends State<QuizListingScreen>
     required Function(String?) onFilterSelected,
   }) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start, // Align to the right
       children: [
         Text(
           title,
@@ -309,14 +320,28 @@ class _QuizListingScreenState extends State<QuizListingScreen>
         ),
         const SizedBox(height: 8),
         Wrap(
+          alignment: WrapAlignment.start, // Align chips to the right
           spacing: 8,
           children: filters.map((filter) {
+            final bool isSelected = selectedFilter == filter;
             return FilterChip(
-              label: Text(filter),
-              selected: selectedFilter == filter,
+              label: Text(
+                filter,
+                style: TextStyle(
+                  color: isSelected
+                      ? AppColors.white
+                      : AppColors.darkGrey, // Change text color
+                ),
+              ),
+              selected: isSelected,
               onSelected: (selected) {
                 onFilterSelected(selected ? filter : null);
               },
+              selectedColor: AppColors
+                  .primaryColor, // Change background color when selected
+              backgroundColor: AppColors.lightGrey
+                  .withOpacity(0.1), // Default background color
+              checkmarkColor: AppColors.white, // Change checkmark color
             );
           }).toList(),
         ),

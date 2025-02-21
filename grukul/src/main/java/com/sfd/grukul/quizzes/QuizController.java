@@ -1,6 +1,7 @@
 package com.sfd.grukul.quizzes;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -9,6 +10,7 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("/api/v1/quizzes")
 @RequiredArgsConstructor
+@Slf4j
 public class QuizController {
     private final QuizService quizService;
 
@@ -46,6 +48,8 @@ public class QuizController {
             @RequestParam(value = "levelFilter", required = false) String levelFilter,
             @RequestParam(value = "searchQuery", required = false) String searchQuery,
             @RequestParam(value = "sortBy", required = false) String sortBy) {
+        log.info("Fetching quizzes with {}, {}, {}, {}, {},{},{}",
+        page, limit, classFilter, subjectFilter, levelFilter, searchQuery, sortBy);
         Flux<Quiz> quizzes = quizService.getRandomQuizzes();
         return quizzes
                 .collectList()
