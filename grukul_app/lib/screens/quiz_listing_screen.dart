@@ -28,7 +28,7 @@ class _QuizListingScreenState extends State<QuizListingScreen>
   // Filter lists
   List<String> difficultyFilters = [];
   List<String> subjectFilters = [];
-  List<String> classFilters = []; // New class filter list
+  List<String> classFilters = [];
 
   @override
   void initState() {
@@ -89,14 +89,7 @@ class _QuizListingScreenState extends State<QuizListingScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Quiz Library'),
-        backgroundColor: AppColors.primaryColor,
-        actions: [
-          _buildSortDropdown(),
-          const SizedBox(width: 10),
-        ],
-      ),
+      appBar: _buildAppBar(),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -111,7 +104,7 @@ class _QuizListingScreenState extends State<QuizListingScreen>
         child: Column(
           children: [
             _buildSearchBar(),
-            _buildFilters(),
+            _buildAppliedFilters(),
             Expanded(
               child: RefreshIndicator(
                 onRefresh: _fetchQuizzes,
@@ -121,6 +114,61 @@ class _QuizListingScreenState extends State<QuizListingScreen>
           ],
         ),
       ),
+    );
+  }
+
+  PreferredSizeWidget _buildAppBar() {
+    final int appliedFiltersCount = [
+      selectedClass,
+      selectedSubject,
+      selectedLevel,
+    ].where((filter) => filter != null).length;
+
+    return AppBar(
+      title: const Text('Quiz Library'),
+      backgroundColor: AppColors.primaryColor,
+      actions: [
+        Container(
+          margin: const EdgeInsets.only(right: 8),
+          decoration: BoxDecoration(
+            color: AppColors.white.withOpacity(0.2), // Add background color
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Stack(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.filter_list,
+                    color: AppColors.white), // Use white color
+                onPressed: _showFilterModal,
+              ),
+              if (appliedFiltersCount > 0)
+                Positioned(
+                  right: 8,
+                  top: 8,
+                  child: Container(
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      color: AppColors.errorColor,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    constraints: const BoxConstraints(
+                      minWidth: 16,
+                      minHeight: 16,
+                    ),
+                    child: Text(
+                      '$appliedFiltersCount',
+                      style: const TextStyle(
+                        color: AppColors.white,
+                        fontSize: 10,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -155,102 +203,124 @@ class _QuizListingScreenState extends State<QuizListingScreen>
     );
   }
 
-  Widget _buildSortDropdown() {
-    return DropdownButtonHideUnderline(
-      child: DropdownButton<String>(
-        value: sortBy,
-        icon: Icon(Icons.sort, color: AppColors.white),
-        dropdownColor: AppColors.primaryColor,
-        style: TextStyle(color: AppColors.white),
-        onChanged: (String? newValue) {
-          setState(() {
-            sortBy = newValue!.toLowerCase();
-            _fetchQuizzes();
-          });
-        },
-        items: ['Recent', 'Difficulty', 'Title', 'Questions']
-            .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value.toLowerCase(),
-            child: Text(value),
+  Widget _buildAppliedFilters() {
+    final List<String?> appliedFilters = [
+      selectedClass,
+      selectedSubject,
+      selectedLevel,
+    ].where((filter) => filter != null).toList();
+
+    if (appliedFilters.isEmpty) return const SizedBox.shrink();
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Wrap(
+        spacing: 8,
+        children: appliedFilters.map((filter) {
+          return Chip(
+            label: Text(filter!),
+            onDeleted: () {
+              setState(() {
+                if (selectedClass == filter) selectedClass = null;
+                if (selectedSubject == filter) selectedSubject = null;
+                if (selectedLevel == filter) selectedLevel = null;
+                _fetchQuizzes();
+              });
+            },
           );
         }).toList(),
       ),
     );
   }
 
-  Widget _buildFilters() {
-    return AnimatedSize(
-      duration: const Duration(milliseconds: 300),
-      child: Card(
-        margin: const EdgeInsets.all(8),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
+  void _showFilterModal() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(16),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Difficulty Filters
-              Text('Difficulty Filters:'),
-              Wrap(
-                spacing: 8,
-                children: difficultyFilters.map((filter) {
-                  return FilterChip(
-                    label: Text(filter),
-                    selected: selectedLevel == filter,
-                    onSelected: (selected) {
-                      setState(() {
-                        selectedLevel = selected ? filter : null;
-                        _fetchQuizzes();
-                      });
-                    },
-                  );
-                }).toList(),
+              _buildFilterSection(
+                title: 'Difficulty',
+                filters: difficultyFilters,
+                selectedFilter: selectedLevel,
+                onFilterSelected: (filter) {
+                  setState(() {
+                    selectedLevel = filter;
+                  });
+                },
               ),
-
-              const SizedBox(height: 10),
-
-              // Subject Filters
-              Text('Subject Filters:'),
-              Wrap(
-                spacing: 8,
-                children: subjectFilters.map((filter) {
-                  return FilterChip(
-                    label: Text(filter),
-                    selected: selectedSubject == filter,
-                    onSelected: (selected) {
-                      setState(() {
-                        selectedSubject = selected ? filter : null;
-                        _fetchQuizzes();
-                      });
-                    },
-                  );
-                }).toList(),
+              const SizedBox(height: 16),
+              _buildFilterSection(
+                title: 'Subject',
+                filters: subjectFilters,
+                selectedFilter: selectedSubject,
+                onFilterSelected: (filter) {
+                  setState(() {
+                    selectedSubject = filter;
+                  });
+                },
               ),
-
-              const SizedBox(height: 10),
-
-              // Class Filters
-              Text('Class Filters:'),
-              Wrap(
-                spacing: 8,
-                children: classFilters.map((filter) {
-                  return FilterChip(
-                    label: Text(filter),
-                    selected: selectedClass == filter,
-                    onSelected: (selected) {
-                      setState(() {
-                        selectedClass = selected ? filter : null;
-                        _fetchQuizzes();
-                      });
-                    },
-                  );
-                }).toList(),
+              const SizedBox(height: 16),
+              _buildFilterSection(
+                title: 'Class',
+                filters: classFilters,
+                selectedFilter: selectedClass,
+                onFilterSelected: (filter) {
+                  setState(() {
+                    selectedClass = filter;
+                  });
+                },
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _fetchQuizzes();
+                },
+                child: const Text('Apply Filters'),
               ),
             ],
           ),
+        );
+      },
+    );
+  }
+
+  Widget _buildFilterSection({
+    required String title,
+    required List<String> filters,
+    required String? selectedFilter,
+    required Function(String?) onFilterSelected,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-      ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          children: filters.map((filter) {
+            return FilterChip(
+              label: Text(filter),
+              selected: selectedFilter == filter,
+              onSelected: (selected) {
+                onFilterSelected(selected ? filter : null);
+              },
+            );
+          }).toList(),
+        ),
+      ],
     );
   }
 
