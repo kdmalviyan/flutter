@@ -10,7 +10,7 @@ public class Quiz {
     private String title;
     private String subject;
     private String className;
-    private String level;
+    private String difficulty;
     private int duration;
     private int questionCount;
     private double averageScore;

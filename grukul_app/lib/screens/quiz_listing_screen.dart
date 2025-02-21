@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:mcq_learning_app/apis/dashboard.dart';
 import 'package:mcq_learning_app/helper/app_colors.dart';
+import 'package:mcq_learning_app/helper/quiz.dart';
+import 'package:mcq_learning_app/screens/quiz_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
 class QuizListingScreen extends StatefulWidget {
@@ -19,7 +21,7 @@ class _QuizListingScreenState extends State<QuizListingScreen>
   bool isLoading = true;
   String? selectedClass;
   String? selectedSubject;
-  String? selectedLevel;
+  String? selectedDifficulty;
   String searchQuery = '';
   String sortBy = 'recent';
   late AnimationController _animationController;
@@ -46,7 +48,7 @@ class _QuizListingScreenState extends State<QuizListingScreen>
         widget.token,
         classFilter: selectedClass,
         subjectFilter: selectedSubject,
-        levelFilter: selectedLevel,
+        difficultyFilter: selectedDifficulty,
         searchQuery: searchQuery,
         sortBy: sortBy,
         page: 0,
@@ -121,7 +123,7 @@ class _QuizListingScreenState extends State<QuizListingScreen>
     final int appliedFiltersCount = [
       selectedClass,
       selectedSubject,
-      selectedLevel,
+      selectedDifficulty,
     ].where((filter) => filter != null).length;
 
     return AppBar(
@@ -207,7 +209,7 @@ class _QuizListingScreenState extends State<QuizListingScreen>
     final List<String?> appliedFilters = [
       selectedClass,
       selectedSubject,
-      selectedLevel,
+      selectedDifficulty,
     ].where((filter) => filter != null).toList();
 
     if (appliedFilters.isEmpty) return const SizedBox.shrink();
@@ -223,7 +225,7 @@ class _QuizListingScreenState extends State<QuizListingScreen>
               setState(() {
                 if (selectedClass == filter) selectedClass = null;
                 if (selectedSubject == filter) selectedSubject = null;
-                if (selectedLevel == filter) selectedLevel = null;
+                if (selectedDifficulty == filter) selectedDifficulty = null;
                 _fetchQuizzes();
               });
             },
@@ -249,10 +251,10 @@ class _QuizListingScreenState extends State<QuizListingScreen>
               _buildFilterSection(
                 title: 'Difficulty',
                 filters: difficultyFilters,
-                selectedFilter: selectedLevel,
+                selectedFilter: selectedDifficulty,
                 onFilterSelected: (filter) {
                   setState(() {
-                    selectedLevel = filter;
+                    selectedDifficulty = filter;
                   });
                 },
               ),
@@ -309,7 +311,7 @@ class _QuizListingScreenState extends State<QuizListingScreen>
     required Function(String?) onFilterSelected,
   }) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start, // Align to the left
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           title,
@@ -320,7 +322,6 @@ class _QuizListingScreenState extends State<QuizListingScreen>
         ),
         const SizedBox(height: 8),
         Wrap(
-          alignment: WrapAlignment.start, // Align chips to the left
           spacing: 8,
           children: filters.map((filter) {
             final bool isSelected = selectedFilter == filter;
@@ -328,20 +329,17 @@ class _QuizListingScreenState extends State<QuizListingScreen>
               label: Text(
                 filter,
                 style: TextStyle(
-                  color: isSelected
-                      ? AppColors.white
-                      : AppColors.darkGrey, // Change text color
+                  color: isSelected ? AppColors.white : AppColors.darkGrey,
                 ),
               ),
               selected: isSelected,
               onSelected: (selected) {
                 onFilterSelected(selected ? filter : null);
+                setState(() {});
               },
-              selectedColor: AppColors
-                  .primaryColor, // Change background color when selected
-              backgroundColor: AppColors.lightGrey
-                  .withOpacity(0.1), // Default background color
-              checkmarkColor: AppColors.white, // Change checkmark color
+              selectedColor: AppColors.primaryColor,
+              backgroundColor: AppColors.lightGrey.withOpacity(0.1),
+              checkmarkColor: AppColors.white,
             );
           }).toList(),
         ),
@@ -382,6 +380,7 @@ class _QuizListingScreenState extends State<QuizListingScreen>
   }
 
   Widget _buildQuizCard(Map<String, dynamic> quiz) {
+    print(quiz);
     return Card(
       elevation: 4,
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
@@ -396,7 +395,7 @@ class _QuizListingScreenState extends State<QuizListingScreen>
             children: [
               Row(
                 children: [
-                  _buildDifficultyIndicator(quiz['level']),
+                  _buildDifficultyIndicator(quiz['difficulty']),
                   const Spacer(),
                   _buildQuizStats(quiz),
                 ],
@@ -436,14 +435,14 @@ class _QuizListingScreenState extends State<QuizListingScreen>
     );
   }
 
-  Widget _buildDifficultyIndicator(String level) {
-    final color = _getDifficultyColor(level);
+  Widget _buildDifficultyIndicator(String difficulty) {
+    final color = _getDifficultyColor(difficulty);
     return Row(
       children: [
         Icon(Icons.circle, color: color, size: 16),
         const SizedBox(width: 5),
         Text(
-          level,
+          difficulty,
           style: TextStyle(
             color: color,
             fontWeight: FontWeight.bold,
@@ -506,8 +505,8 @@ class _QuizListingScreenState extends State<QuizListingScreen>
     );
   }
 
-  Color _getDifficultyColor(String level) {
-    switch (level.toLowerCase()) {
+  Color _getDifficultyColor(String difficulty) {
+    switch (difficulty.toLowerCase()) {
       case 'easy':
         return AppColors.successColor;
       case 'medium':
@@ -526,7 +525,28 @@ class _QuizListingScreenState extends State<QuizListingScreen>
   }
 
   void _navigateToQuiz(Map<String, dynamic> quiz) {
-    // Implement navigation to quiz screen
+    final quizData = Quiz(
+      id: quiz['id'],
+      title: quiz['title'],
+      subject: quiz['subject'],
+      className: quiz['className'],
+      duration: quiz['duration'],
+      questionCount: quiz['questionCount'],
+      difficulty: quiz['difficulty'],
+      averageScore: quiz['averageScore'],
+      participants: quiz['participants'],
+      createdAt: quiz['createdAt'],
+    );
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => QuizScreen(
+          token: widget.token,
+          quiz: quizData,
+        ),
+      ),
+    );
   }
 
   @override

@@ -45,11 +45,11 @@ public class QuizController {
             @RequestParam("limit") int limit,
             @RequestParam(value = "classFilter", required = false) String classFilter,
             @RequestParam(value = "subjectFilter", required = false) String subjectFilter,
-            @RequestParam(value = "levelFilter", required = false) String levelFilter,
+            @RequestParam(value = "difficultyFilter", required = false) String difficultyFilter,
             @RequestParam(value = "searchQuery", required = false) String searchQuery,
             @RequestParam(value = "sortBy", required = false) String sortBy) {
         log.info("Fetching quizzes with {} {} {} {} {} {} {}",
-        page, limit, classFilter, subjectFilter, levelFilter, searchQuery, sortBy);
+        page, limit, classFilter, subjectFilter, difficultyFilter, searchQuery, sortBy);
         Flux<Quiz> quizzes = quizService.getRandomQuizzes();
         return quizzes
                 .collectList()

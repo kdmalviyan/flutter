@@ -62,7 +62,6 @@ class _LoginScreenState extends State<LoginScreen> {
         final String token = responseData['token'];
 
         await saveToken(token);
-
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

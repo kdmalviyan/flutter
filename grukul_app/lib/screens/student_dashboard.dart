@@ -19,6 +19,13 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
   int _selectedIndex = 0;
   final List<String> _appBarTitles = ['Home', 'Quizzes', 'Leaderboard'];
 
+  // Nested navigators for each tab
+  final List<GlobalKey<NavigatorState>> _navigatorKeys = [
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,22 +118,39 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
   }
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    if (_selectedIndex != index) {
+      setState(() {
+        _selectedIndex = index;
+      });
+    } else {
+      // Pop to the first route of the current tab's navigator
+      _navigatorKeys[_selectedIndex]
+          .currentState
+          ?.popUntil((route) => route.isFirst);
+    }
   }
 
   Widget _buildBody() {
-    switch (_selectedIndex) {
-      case 0:
-        return HomeScreen(token: widget.token);
-      case 1:
-        return QuizListingScreen(token: widget.token);
-      case 2:
-        return LeaderboardScreen(token: widget.token);
-      default:
-        return Container();
-    }
+    return Navigator(
+      key: _navigatorKeys[_selectedIndex],
+      onGenerateRoute: (settings) {
+        Widget screen;
+        switch (_selectedIndex) {
+          case 0:
+            screen = HomeScreen(token: widget.token);
+            break;
+          case 1:
+            screen = QuizListingScreen(token: widget.token);
+            break;
+          case 2:
+            screen = LeaderboardScreen(token: widget.token);
+            break;
+          default:
+            screen = Container();
+        }
+        return MaterialPageRoute(builder: (context) => screen);
+      },
+    );
   }
 
   Future<void> _handleLogout(context) async {

@@ -79,21 +79,17 @@ class DashboardApi {
     String token, {
     String? classFilter,
     String? subjectFilter,
-    String? levelFilter,
+    String? difficultyFilter,
     String? searchQuery,
     String? sortBy,
     int page = 0,
     int limit = 10,
   }) async {
-    print(classFilter);
-    print(subjectFilter);
-    print(levelFilter);
-    print(searchQuery);
     final response = await http.get(
       Uri.parse('${await ApiConstants.getApiBaseUrl()}/api/v1/quizzes/random?'
           'classFilter=$classFilter'
           '&subjectFilter=$subjectFilter'
-          '&levelFilter=$levelFilter'
+          '&difficultyFilter=$difficultyFilter'
           '&searchQuery=$searchQuery'
           '&sortBy=$sortBy'
           '&page=$page'
