@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mcq_learning_app/screens/pre_login_screen.dart';
-import 'package:mcq_learning_app/screens/quiz_listing_screen.dart';
+import 'package:mcq_learning_app/screens/quiz/quiz_listing_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'home_screen.dart';
 import 'leaderboard_screen.dart';
@@ -30,8 +30,10 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_appBarTitles[_selectedIndex],
-            style: const TextStyle(color: AppColors.white)),
+        title: Text(
+          _appBarTitles[_selectedIndex],
+          style: const TextStyle(color: AppColors.white),
+        ),
         backgroundColor: AppColors.gradientStart,
         elevation: 0,
       ),
@@ -70,11 +72,16 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
             _buildDrawerItem(Icons.person, 'Profile', context),
             _buildDrawerItem(Icons.settings, 'Settings', context),
             _buildDrawerItem(
-                Icons.notifications, 'Notification Preferences', context),
+              Icons.notifications,
+              'Notification Preferences',
+              context,
+            ),
             ListTile(
               leading: const Icon(Icons.logout, color: AppColors.white),
-              title: const Text('Logout',
-                  style: TextStyle(color: AppColors.white)),
+              title: const Text(
+                'Logout',
+                style: TextStyle(color: AppColors.white),
+              ),
               onTap: () => _handleLogout(context),
             ),
           ],
@@ -111,7 +118,9 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.quiz), label: 'Quiz'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.leaderboard), label: 'Leaderboard'),
+            icon: Icon(Icons.leaderboard),
+            label: 'Leaderboard',
+          ),
         ],
       ),
     );
@@ -124,9 +133,9 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
       });
     } else {
       // Pop to the first route of the current tab's navigator
-      _navigatorKeys[_selectedIndex]
-          .currentState
-          ?.popUntil((route) => route.isFirst);
+      _navigatorKeys[_selectedIndex].currentState?.popUntil(
+        (route) => route.isFirst,
+      );
     }
   }
 

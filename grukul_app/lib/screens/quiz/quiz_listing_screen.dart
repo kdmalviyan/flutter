@@ -3,7 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:mcq_learning_app/apis/dashboard.dart';
 import 'package:mcq_learning_app/helper/app_colors.dart';
 import 'package:mcq_learning_app/helper/quiz.dart';
-import 'package:mcq_learning_app/screens/quiz_screen.dart';
+import 'package:mcq_learning_app/screens/quiz/quiz_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
 class QuizListingScreen extends StatefulWidget {
@@ -75,16 +75,18 @@ class _QuizListingScreenState extends State<QuizListingScreen>
         setState(() => isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-              content: Text(
-                  'Failed to load quizzes: API returned false for success')),
+            content: Text(
+              'Failed to load quizzes: API returned false for success',
+            ),
+          ),
         );
       }
     } catch (e) {
       // Handle errors
       setState(() => isLoading = false);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to load quizzes: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Failed to load quizzes: $e')));
     }
   }
 
@@ -95,10 +97,7 @@ class _QuizListingScreenState extends State<QuizListingScreen>
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              AppColors.gradientStart,
-              AppColors.gradientEnd,
-            ],
+            colors: [AppColors.gradientStart, AppColors.gradientEnd],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -120,11 +119,12 @@ class _QuizListingScreenState extends State<QuizListingScreen>
   }
 
   PreferredSizeWidget _buildAppBar() {
-    final int appliedFiltersCount = [
-      selectedClass,
-      selectedSubject,
-      selectedDifficulty,
-    ].where((filter) => filter != null).length;
+    final int appliedFiltersCount =
+        [
+          selectedClass,
+          selectedSubject,
+          selectedDifficulty,
+        ].where((filter) => filter != null).length;
 
     return AppBar(
       title: const Text('Quiz Library'),
@@ -139,8 +139,10 @@ class _QuizListingScreenState extends State<QuizListingScreen>
           child: Stack(
             children: [
               IconButton(
-                icon: const Icon(Icons.filter_list,
-                    color: AppColors.white), // Use white color
+                icon: const Icon(
+                  Icons.filter_list,
+                  color: AppColors.white,
+                ), // Use white color
                 onPressed: _showFilterModal,
               ),
               if (appliedFiltersCount > 0)
@@ -206,11 +208,12 @@ class _QuizListingScreenState extends State<QuizListingScreen>
   }
 
   Widget _buildAppliedFilters() {
-    final List<String?> appliedFilters = [
-      selectedClass,
-      selectedSubject,
-      selectedDifficulty,
-    ].where((filter) => filter != null).toList();
+    final List<String?> appliedFilters =
+        [
+          selectedClass,
+          selectedSubject,
+          selectedDifficulty,
+        ].where((filter) => filter != null).toList();
 
     if (appliedFilters.isEmpty) return const SizedBox.shrink();
 
@@ -218,19 +221,20 @@ class _QuizListingScreenState extends State<QuizListingScreen>
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Wrap(
         spacing: 8,
-        children: appliedFilters.map((filter) {
-          return Chip(
-            label: Text(filter!),
-            onDeleted: () {
-              setState(() {
-                if (selectedClass == filter) selectedClass = null;
-                if (selectedSubject == filter) selectedSubject = null;
-                if (selectedDifficulty == filter) selectedDifficulty = null;
-                _fetchQuizzes();
-              });
-            },
-          );
-        }).toList(),
+        children:
+            appliedFilters.map((filter) {
+              return Chip(
+                label: Text(filter!),
+                onDeleted: () {
+                  setState(() {
+                    if (selectedClass == filter) selectedClass = null;
+                    if (selectedSubject == filter) selectedSubject = null;
+                    if (selectedDifficulty == filter) selectedDifficulty = null;
+                    _fetchQuizzes();
+                  });
+                },
+              );
+            }).toList(),
       ),
     );
   }
@@ -315,33 +319,31 @@ class _QuizListingScreenState extends State<QuizListingScreen>
       children: [
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         Wrap(
           spacing: 8,
-          children: filters.map((filter) {
-            final bool isSelected = selectedFilter == filter;
-            return FilterChip(
-              label: Text(
-                filter,
-                style: TextStyle(
-                  color: isSelected ? AppColors.white : AppColors.darkGrey,
-                ),
-              ),
-              selected: isSelected,
-              onSelected: (selected) {
-                onFilterSelected(selected ? filter : null);
-                setState(() {});
-              },
-              selectedColor: AppColors.primaryColor,
-              backgroundColor: AppColors.lightGrey.withOpacity(0.1),
-              checkmarkColor: AppColors.white,
-            );
-          }).toList(),
+          children:
+              filters.map((filter) {
+                final bool isSelected = selectedFilter == filter;
+                return FilterChip(
+                  label: Text(
+                    filter,
+                    style: TextStyle(
+                      color: isSelected ? AppColors.white : AppColors.darkGrey,
+                    ),
+                  ),
+                  selected: isSelected,
+                  onSelected: (selected) {
+                    onFilterSelected(selected ? filter : null);
+                    setState(() {});
+                  },
+                  selectedColor: AppColors.primaryColor,
+                  backgroundColor: AppColors.lightGrey.withOpacity(0.1),
+                  checkmarkColor: AppColors.white,
+                );
+              }).toList(),
         ),
       ],
     );
@@ -359,10 +361,7 @@ class _QuizListingScreenState extends State<QuizListingScreen>
             const SizedBox(height: 20),
             Text(
               'No quizzes found',
-              style: TextStyle(
-                color: AppColors.white,
-                fontSize: 18,
-              ),
+              style: TextStyle(color: AppColors.white, fontSize: 18),
             ),
           ],
         ),
@@ -443,10 +442,7 @@ class _QuizListingScreenState extends State<QuizListingScreen>
         const SizedBox(width: 5),
         Text(
           difficulty,
-          style: TextStyle(
-            color: color,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: color, fontWeight: FontWeight.bold),
         ),
       ],
     );
@@ -465,8 +461,11 @@ class _QuizListingScreenState extends State<QuizListingScreen>
     );
   }
 
-  Widget _buildInfoChip(
-      {required IconData icon, required String text, Color? color}) {
+  Widget _buildInfoChip({
+    required IconData icon,
+    required String text,
+    Color? color,
+  }) {
     return Chip(
       backgroundColor:
           color?.withOpacity(0.1) ?? AppColors.lightGrey.withOpacity(0.1),
@@ -491,16 +490,18 @@ class _QuizListingScreenState extends State<QuizListingScreen>
       highlightColor: AppColors.shimmerHighlight,
       child: ListView.builder(
         itemCount: 6,
-        itemBuilder: (context, index) => Card(
-          margin: const EdgeInsets.all(10),
-          child: Container(
-            height: 120,
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(15)),
-          ),
-        ),
+        itemBuilder:
+            (context, index) => Card(
+              margin: const EdgeInsets.all(10),
+              child: Container(
+                height: 120,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+            ),
       ),
     );
   }
@@ -541,10 +542,7 @@ class _QuizListingScreenState extends State<QuizListingScreen>
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => QuizScreen(
-          token: widget.token,
-          quiz: quizData,
-        ),
+        builder: (context) => QuizScreen(token: widget.token, quiz: quizData),
       ),
     );
   }

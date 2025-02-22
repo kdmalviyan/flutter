@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:mcq_learning_app/apis/dashboard.dart';
 import 'package:mcq_learning_app/helper/app_colors.dart';
-import 'package:mcq_learning_app/screens/quiz_listing_screen.dart';
+import 'package:mcq_learning_app/screens/quiz/quiz_listing_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final String token;

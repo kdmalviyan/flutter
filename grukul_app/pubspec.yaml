@@ -39,6 +39,7 @@ dependencies:
   fl_chart: ^0.67.0
   device_info_plus: ^11.3.0
   shimmer: ^2.0.0
+  confetti: ^0.7.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
