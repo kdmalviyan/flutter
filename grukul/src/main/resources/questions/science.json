@@ -1,0 +1,309 @@
+[
+  {
+    "id": "1",
+    "className": "Class 1",
+    "subject": "Science",
+    "chapter": "Plants",
+    "topic": "Parts of a Plant",
+    "question": "Which part of the plant absorbs water from the soil?",
+    "questionType": "MCQ",
+    "difficulty": "EASY",
+    "options": ["Leaves", "Roots", "Stem", "Flowers"],
+    "correctAnswer": ["Roots"],
+    "details": {
+      "explanation": "Roots absorb water and nutrients from the soil.",
+      "hint": "Think about what part of the plant is underground."
+    }
+  },
+  {
+    "id": "2",
+    "className": "Class 2",
+    "subject": "Science",
+    "chapter": "Animals",
+    "topic": "Animal Habitats",
+    "question": "A lion lives in the jungle. (True/False)",
+    "questionType": "TRUE_FALSE",
+    "difficulty": "EASY",
+    "correctAnswer": ["True"],
+    "details": {
+      "explanation": "Lions are wild animals that live in jungles or savannas."
+    }
+  },
+  {
+    "id": "3",
+    "className": "Class 3",
+    "subject": "Science",
+    "chapter": "Human Body",
+    "topic": "Sense Organs",
+    "question": "Which sense organ helps us see?",
+    "questionType": "MCQ",
+    "difficulty": "EASY",
+    "options": ["Ears", "Eyes", "Nose", "Skin"],
+    "correctAnswer": ["Eyes"],
+    "details": {
+      "explanation": "Eyes are the sense organs responsible for vision.",
+      "hint": "Think about what you use to read or watch TV."
+    }
+  },
+  {
+    "id": "4",
+    "className": "Class 4",
+    "subject": "Science",
+    "chapter": "Solar System",
+    "topic": "Planets",
+    "question": "Which planet is known as the Red Planet?",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "EASY",
+    "answer": "Mars",
+    "details": {
+      "explanation": "Mars is called the Red Planet because of its reddish appearance.",
+      "hint": "Think about the color of the planet."
+    }
+  },
+  {
+    "id": "5",
+    "className": "Class 5",
+    "subject": "Science",
+    "chapter": "Matter",
+    "topic": "States of Matter",
+    "question": "How many states of matter are there?",
+    "questionType": "MCQ",
+    "difficulty": "EASY",
+    "options": ["2", "3", "4", "5"],
+    "correctAnswer": ["3"],
+    "details": {
+      "explanation": "The three states of matter are solid, liquid, and gas.",
+      "hint": "Think about ice, water, and steam."
+    }
+  },
+  {
+    "id": "6",
+    "className": "Class 1",
+    "subject": "Science",
+    "chapter": "Animals",
+    "topic": "Animal Sounds",
+    "question": "What sound does a cow make?",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "EASY",
+    "answer": "Moo",
+    "details": {
+      "explanation": "Cows make a 'moo' sound.",
+      "hint": "Think about what you hear on a farm."
+    }
+  },
+  {
+    "id": "7",
+    "className": "Class 2",
+    "subject": "Science",
+    "chapter": "Plants",
+    "topic": "Photosynthesis",
+    "question": "Plants make their own food using sunlight. (True/False)",
+    "questionType": "TRUE_FALSE",
+    "difficulty": "EASY",
+    "correctAnswer": ["True"],
+    "details": {
+      "explanation": "Plants use sunlight, water, and carbon dioxide to make food through photosynthesis."
+    }
+  },
+  {
+    "id": "8",
+    "className": "Class 3",
+    "subject": "Science",
+    "chapter": "Human Body",
+    "topic": "Bones",
+    "question": "How many bones are in the human body?",
+    "questionType": "MCQ",
+    "difficulty": "MEDIUM",
+    "options": ["100", "206", "300", "500"],
+    "correctAnswer": ["206"],
+    "details": {
+      "explanation": "An adult human body has 206 bones.",
+      "hint": "Think about how many bones are in your hand alone."
+    }
+  },
+  {
+    "id": "9",
+    "className": "Class 4",
+    "subject": "Science",
+    "chapter": "Solar System",
+    "topic": "Earth",
+    "question": "What is the shape of the Earth?",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "EASY",
+    "answer": "Round",
+    "details": {
+      "explanation": "The Earth is round, like a sphere.",
+      "hint": "Think about pictures of the Earth from space."
+    }
+  },
+  {
+    "id": "10",
+    "className": "Class 5",
+    "subject": "Science",
+    "chapter": "Energy",
+    "topic": "Types of Energy",
+    "question": "Which energy comes from the sun?",
+    "questionType": "MCQ",
+    "difficulty": "EASY",
+    "options": ["Solar", "Wind", "Nuclear", "Geothermal"],
+    "correctAnswer": ["Solar"],
+    "details": {
+      "explanation": "Solar energy is obtained from the sun.",
+      "hint": "Think about solar panels."
+    }
+  },
+  {
+    "id": "11",
+    "className": "Class 1",
+    "subject": "Science",
+    "chapter": "Animals",
+    "topic": "Animal Babies",
+    "question": "What is a baby cat called?",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "EASY",
+    "answer": "Kitten",
+    "details": {
+      "explanation": "A baby cat is called a kitten.",
+      "hint": "Think about small, fluffy cats."
+    }
+  },
+  {
+    "id": "12",
+    "className": "Class 2",
+    "subject": "Science",
+    "chapter": "Human Body",
+    "topic": "Teeth",
+    "question": "How many teeth does an adult human have?",
+    "questionType": "MCQ",
+    "difficulty": "MEDIUM",
+    "options": ["20", "32", "40", "50"],
+    "correctAnswer": ["32"],
+    "details": {
+      "explanation": "An adult human typically has 32 teeth.",
+      "hint": "Think about your own teeth."
+    }
+  },
+  {
+    "id": "13",
+    "className": "Class 3",
+    "subject": "Science",
+    "chapter": "Weather",
+    "topic": "Rainbow",
+    "question": "How many colors are in a rainbow?",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "EASY",
+    "answer": "7",
+    "details": {
+      "explanation": "A rainbow has seven colors: red, orange, yellow, green, blue, indigo, and violet.",
+      "hint": "Think about the acronym ROYGBIV."
+    }
+  },
+  {
+    "id": "14",
+    "className": "Class 4",
+    "subject": "Science",
+    "chapter": "Matter",
+    "topic": "Solids",
+    "question": "Ice is the solid form of water. (True/False)",
+    "questionType": "TRUE_FALSE",
+    "difficulty": "EASY",
+    "correctAnswer": ["True"],
+    "details": {
+      "explanation": "Ice is formed when water freezes and becomes solid."
+    }
+  },
+  {
+    "id": "15",
+    "className": "Class 5",
+    "subject": "Science",
+    "chapter": "Electricity",
+    "topic": "Circuits",
+    "question": "What is needed to complete an electric circuit?",
+    "questionType": "MCQ",
+    "difficulty": "MEDIUM",
+    "options": ["Battery", "Wire", "Bulb", "All of the above"],
+    "correctAnswer": ["All of the above"],
+    "details": {
+      "explanation": "A complete circuit requires a power source (battery), a conductor (wire), and a load (bulb).",
+      "hint": "Think about what makes a light bulb glow."
+    }
+  },
+  {
+    "id": "16",
+    "className": "Class 1",
+    "subject": "Science",
+    "chapter": "Plants",
+    "topic": "Flowers",
+    "question": "Which flower is known for its thorns?",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "EASY",
+    "answer": "Rose",
+    "details": {
+      "explanation": "Roses are known for their beautiful flowers and sharp thorns.",
+      "hint": "Think about a flower often given on special occasions."
+    }
+  },
+  {
+    "id": "17",
+    "className": "Class 2",
+    "subject": "Science",
+    "chapter": "Animals",
+    "topic": "Birds",
+    "question": "Which bird can fly backward?",
+    "questionType": "MCQ",
+    "difficulty": "MEDIUM",
+    "options": ["Eagle", "Sparrow", "Hummingbird", "Owl"],
+    "correctAnswer": ["Hummingbird"],
+    "details": {
+      "explanation": "Hummingbirds are the only birds that can fly backward.",
+      "hint": "Think about small, fast birds."
+    }
+  },
+  {
+    "id": "18",
+    "className": "Class 3",
+    "subject": "Science",
+    "chapter": "Human Body",
+    "topic": "Organs",
+    "question": "Which organ pumps blood throughout the body?",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "EASY",
+    "answer": "Heart",
+    "details": {
+      "explanation": "The heart is responsible for pumping blood to all parts of the body.",
+      "hint": "Think about what keeps you alive."
+    }
+  },
+  {
+    "id": "19",
+    "className": "Class 4",
+    "subject": "Science",
+    "chapter": "Solar System",
+    "topic": "Moon",
+    "question": "How many moons does Earth have?",
+    "questionType": "MCQ",
+    "difficulty": "EASY",
+    "options": ["1", "2", "3", "4"],
+    "correctAnswer": ["1"],
+    "details": {
+      "explanation": "Earth has one moon, commonly known as the Moon.",
+      "hint": "Think about what you see in the night sky."
+    }
+  },
+  {
+    "id": "20",
+    "className": "Class 5",
+    "subject": "Science",
+    "chapter": "Energy",
+    "topic": "Renewable Energy",
+    "question": "Which of these is a renewable source of energy?",
+    "questionType": "MCQ",
+    "difficulty": "MEDIUM",
+    "options": ["Coal", "Solar", "Oil", "Natural Gas"],
+    "correctAnswer": ["Solar"],
+    "details": {
+      "explanation": "Solar energy is renewable because it comes from the sun, which is an endless source.",
+      "hint": "Think about energy sources that don't run out."
+    }
+  }
+]

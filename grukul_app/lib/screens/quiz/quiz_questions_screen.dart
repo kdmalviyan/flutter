@@ -1,4 +1,4 @@
-import 'dart:async'; // Add this import
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mcq_learning_app/helper/app_colors.dart';
 import 'package:mcq_learning_app/helper/app_theme.dart';
@@ -24,13 +24,13 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
   List<Map<String, dynamic>> _questions = [];
   int _score = 0;
   String? _selectedAnswer;
-  int _timeRemaining = 12; // Example timer
-  Timer? _timer; // Store the timer
+  int _timeRemaining = 12; // Timer duration
+  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
-    _fetchQuestions();
+    _initializeQuestions();
     _startTimer();
   }
 
@@ -40,25 +40,19 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
     super.dispose();
   }
 
-  Future<void> _fetchQuestions() async {
-    // Simulate fetching questions from an API
-    await Future.delayed(const Duration(seconds: 1));
+  void _initializeQuestions() {
     if (mounted) {
       setState(() {
-        _questions = [
-          {
-            'question':
-                'Which soccer team won the FIFA World Cup for the first time?',
-            'options': ['Uruguay', 'Brazil', 'Italy', 'Germany'],
-            'correctAnswer': 'Uruguay',
-          },
-          {
-            'question': 'What is the capital of France?',
-            'options': ['London', 'Paris', 'Berlin', 'Madrid'],
-            'correctAnswer': 'Paris',
-          },
-          // Add more questions here
-        ];
+        // Use the questions from the Quiz object
+        _questions = widget.quiz.questions.map((question) {
+          return {
+            'question': question.question,
+            'options': question.options,
+            'correctAnswer': question.correctAnswer.isNotEmpty
+                ? question.correctAnswer[0]
+                : null,
+          };
+        }).toList();
       });
     }
   }
@@ -116,6 +110,7 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
             _currentQuestionIndex++;
             _selectedAnswer = null; // Reset selected answer
             _timeRemaining = 12; // Reset timer
+            _startTimer(); // Restart the timer
           });
         } else {
           _showResults();

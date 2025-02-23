@@ -69,7 +69,7 @@ class QuizScreen extends StatelessWidget {
 
                       // Difficulty
                       _buildDetailRow(
-                          Icons.bolt, 'Difficulty', quiz.difficulty),
+                          Icons.bolt, 'Difficulty', quiz.difficulty.name),
                       const SizedBox(height: 10),
 
                       // Duration

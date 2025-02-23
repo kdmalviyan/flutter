@@ -1,0 +1,308 @@
+[
+  {
+    "id": "1",
+    "className": "Class 10",
+    "subject": "Maths",
+    "chapter": "Algebra",
+    "topic": "Linear Equations",
+    "question": "What is the solution to the equation 2x + 3 = 7?",
+    "questionType": "MCQ",
+    "difficulty": "EASY",
+    "options": ["x = 1", "x = 2", "x = 3", "x = 4"],
+    "correctAnswer": ["x = 2"],
+    "details": {
+      "explanation": "Subtract 3 from both sides and divide by 2 to solve for x.",
+      "hint": "Isolate the variable x.",
+      "image": "linear_equation.png",
+      "video": "https://example.com/linear-equations",
+      "reference": "Textbook Chapter 3"
+    }
+  },
+  {
+    "id": "2",
+    "className": "Class 9",
+    "subject": "Maths",
+    "chapter": "Geometry",
+    "topic": "Triangles",
+    "question": "A triangle with all sides equal is called an equilateral triangle. (True/False)",
+    "questionType": "TRUE_FALSE",
+    "difficulty": "EASY",
+    "correctAnswer": ["True"],
+    "details": {
+      "explanation": "An equilateral triangle has all sides and angles equal.",
+      "hint": "Think about the definition of an equilateral triangle."
+    }
+  },
+  {
+    "id": "3",
+    "className": "Class 8",
+    "subject": "Maths",
+    "chapter": "Arithmetic",
+    "topic": "Fractions",
+    "question": "What is 1/2 + 1/4?",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "MEDIUM",
+    "answer": "3/4",
+    "details": {
+      "explanation": "Convert to a common denominator and add the numerators.",
+      "hint": "Find the least common denominator."
+    }
+  },
+  {
+    "id": "4",
+    "className": "Class 7",
+    "subject": "Maths",
+    "chapter": "Number System",
+    "topic": "Integers",
+    "question": "On a scale of 1 to 10, how difficult do you find solving integer problems?",
+    "questionType": "SCALE_ANSWER",
+    "difficulty": "EASY",
+    "scaleMin": 1,
+    "scaleMax": 10,
+    "details": {
+      "explanation": "This question is subjective and based on personal experience."
+    }
+  },
+  {
+    "id": "5",
+    "className": "Class 10",
+    "subject": "Maths",
+    "chapter": "Trigonometry",
+    "topic": "Sine and Cosine",
+    "question": "What is the value of sin(30°)?",
+    "questionType": "MCQ",
+    "difficulty": "MEDIUM",
+    "options": ["0.5", "0.707", "1", "0"],
+    "correctAnswer": ["0.5"],
+    "details": {
+      "explanation": "The sine of 30 degrees is 0.5.",
+      "hint": "Refer to the unit circle."
+    }
+  },
+  {
+    "id": "6",
+    "className": "Class 9",
+    "subject": "Maths",
+    "chapter": "Coordinate Geometry",
+    "topic": "Distance Formula",
+    "question": "What is the distance between points (2, 3) and (5, 7)?",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "HARD",
+    "answer": "5",
+    "details": {
+      "explanation": "Use the distance formula: √((x2 - x1)² + (y2 - y1)²).",
+      "hint": "Apply the distance formula."
+    }
+  },
+  {
+    "id": "7",
+    "className": "Class 8",
+    "subject": "Maths",
+    "chapter": "Algebra",
+    "topic": "Quadratic Equations",
+    "question": "What is the solution to x² - 5x + 6 = 0?",
+    "questionType": "MCQ",
+    "difficulty": "MEDIUM",
+    "options": ["x = 2, x = 3", "x = 1, x = 6", "x = -2, x = -3", "x = 0, x = 5"],
+    "correctAnswer": ["x = 2, x = 3"],
+    "details": {
+      "explanation": "Factor the quadratic equation to find the roots.",
+      "hint": "Look for two numbers that multiply to 6 and add to -5."
+    }
+  },
+  {
+    "id": "8",
+    "className": "Class 7",
+    "subject": "Maths",
+    "chapter": "Geometry",
+    "topic": "Circles",
+    "question": "The circumference of a circle is given by C = 2πr. (True/False)",
+    "questionType": "TRUE_FALSE",
+    "difficulty": "EASY",
+    "correctAnswer": ["True"],
+    "details": {
+      "explanation": "This is the standard formula for the circumference of a circle."
+    }
+  },
+  {
+    "id": "9",
+    "className": "Class 10",
+    "subject": "Maths",
+    "chapter": "Probability",
+    "topic": "Basic Probability",
+    "question": "What is the probability of rolling a 6 on a fair six-sided die?",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "EASY",
+    "answer": "1/6",
+    "details": {
+      "explanation": "There is one favorable outcome out of six possible outcomes.",
+      "hint": "Think about the total number of outcomes."
+    }
+  },
+  {
+    "id": "10",
+    "className": "Class 9",
+    "subject": "Maths",
+    "chapter": "Statistics",
+    "topic": "Mean and Median",
+    "question": "What is the median of the numbers 3, 5, 7, 9, 11?",
+    "questionType": "MCQ",
+    "difficulty": "MEDIUM",
+    "options": ["5", "7", "9", "11"],
+    "correctAnswer": ["7"],
+    "details": {
+      "explanation": "The median is the middle number in an ordered list.",
+      "hint": "Arrange the numbers in order and find the middle one."
+    }
+  },
+  {
+    "id": "11",
+    "className": "Class 8",
+    "subject": "Maths",
+    "chapter": "Mensuration",
+    "topic": "Area of a Circle",
+    "question": "What is the area of a circle with radius 7?",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "MEDIUM",
+    "answer": "154",
+    "details": {
+      "explanation": "Use the formula A = πr².",
+      "hint": "Substitute the radius into the formula."
+    }
+  },
+  {
+    "id": "12",
+    "className": "Class 7",
+    "subject": "Maths",
+    "chapter": "Algebra",
+    "topic": "Simple Equations",
+    "question": "Solve for x: 3x - 7 = 14.",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "EASY",
+    "answer": "7",
+    "details": {
+      "explanation": "Add 7 to both sides and divide by 3.",
+      "hint": "Isolate the variable x."
+    }
+  },
+  {
+    "id": "13",
+    "className": "Class 10",
+    "subject": "Maths",
+    "chapter": "Trigonometry",
+    "topic": "Tangent Function",
+    "question": "What is the value of tan(45°)?",
+    "questionType": "MCQ",
+    "difficulty": "EASY",
+    "options": ["0", "1", "√2", "√3"],
+    "correctAnswer": ["1"],
+    "details": {
+      "explanation": "The tangent of 45 degrees is 1.",
+      "hint": "Refer to the unit circle."
+    }
+  },
+  {
+    "id": "14",
+    "className": "Class 9",
+    "subject": "Maths",
+    "chapter": "Coordinate Geometry",
+    "topic": "Slope of a Line",
+    "question": "What is the slope of the line passing through (1, 2) and (3, 4)?",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "MEDIUM",
+    "answer": "1",
+    "details": {
+      "explanation": "Use the slope formula: (y2 - y1) / (x2 - x1).",
+      "hint": "Calculate the difference in y and x coordinates."
+    }
+  },
+  {
+    "id": "15",
+    "className": "Class 8",
+    "subject": "Maths",
+    "chapter": "Geometry",
+    "topic": "Pythagoras Theorem",
+    "question": "In a right-angled triangle, the square of the hypotenuse is equal to the sum of the squares of the other two sides. (True/False)",
+    "questionType": "TRUE_FALSE",
+    "difficulty": "EASY",
+    "correctAnswer": ["True"],
+    "details": {
+      "explanation": "This is the statement of the Pythagoras theorem."
+    }
+  },
+  {
+    "id": "16",
+    "className": "Class 7",
+    "subject": "Maths",
+    "chapter": "Number System",
+    "topic": "Prime Numbers",
+    "question": "Is 17 a prime number?",
+    "questionType": "TRUE_FALSE",
+    "difficulty": "EASY",
+    "correctAnswer": ["True"],
+    "details": {
+      "explanation": "17 is only divisible by 1 and itself."
+    }
+  },
+  {
+    "id": "17",
+    "className": "Class 10",
+    "subject": "Maths",
+    "chapter": "Probability",
+    "topic": "Compound Events",
+    "question": "What is the probability of flipping two heads in a row with a fair coin?",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "MEDIUM",
+    "answer": "1/4",
+    "details": {
+      "explanation": "Multiply the probability of each independent event.",
+      "hint": "Each flip has a 1/2 chance of being heads."
+    }
+  },
+  {
+    "id": "18",
+    "className": "Class 9",
+    "subject": "Maths",
+    "chapter": "Algebra",
+    "topic": "Quadratic Equations",
+    "question": "What is the solution to x² - 4 = 0?",
+    "questionType": "MCQ",
+    "difficulty": "EASY",
+    "options": ["x = 2", "x = -2", "x = 2, x = -2", "x = 0"],
+    "correctAnswer": ["x = 2, x = -2"],
+    "details": {
+      "explanation": "Factor the equation to find the roots.",
+      "hint": "Use the difference of squares."
+    }
+  },
+  {
+    "id": "19",
+    "className": "Class 8",
+    "subject": "Maths",
+    "chapter": "Mensuration",
+    "topic": "Volume of a Cube",
+    "question": "What is the volume of a cube with side length 3?",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "EASY",
+    "answer": "27",
+    "details": {
+      "explanation": "Use the formula V = side³.",
+      "hint": "Cube the side length."
+    }
+  },
+  {
+    "id": "20",
+    "className": "Class 7",
+    "subject": "Maths",
+    "chapter": "Algebra",
+    "topic": "Expressions",
+    "question": "Simplify the expression: 2x + 3x.",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "EASY",
+    "answer": "5x",
+    "details": {
+      "explanation": "Combine like terms.",
+      "hint": "Add the coefficients of x."
+    }
+  }
+]

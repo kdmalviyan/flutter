@@ -1,0 +1,308 @@
+[
+  {
+    "id": "1",
+    "className": "Class 1",
+    "subject": "History",
+    "chapter": "Famous Leaders",
+    "topic": "Mahatma Gandhi",
+    "question": "Who is known as the Father of the Nation in India?",
+    "questionType": "MCQ",
+    "difficulty": "EASY",
+    "options": ["Jawaharlal Nehru", "Mahatma Gandhi", "Subhas Chandra Bose", "Bhagat Singh"],
+    "correctAnswer": ["Mahatma Gandhi"],
+    "details": {
+      "explanation": "Mahatma Gandhi is known as the Father of the Nation for his role in India's independence movement.",
+      "hint": "Think about the leader who used non-violence."
+    }
+  },
+  {
+    "id": "2",
+    "className": "Class 2",
+    "subject": "History",
+    "chapter": "Ancient Civilizations",
+    "topic": "Indus Valley",
+    "question": "The Indus Valley Civilization was located in present-day India and Pakistan. (True/False)",
+    "questionType": "TRUE_FALSE",
+    "difficulty": "EASY",
+    "correctAnswer": ["True"],
+    "details": {
+      "explanation": "The Indus Valley Civilization flourished in the regions of modern-day India and Pakistan."
+    }
+  },
+  {
+    "id": "3",
+    "className": "Class 3",
+    "subject": "History",
+    "chapter": "Famous Monuments",
+    "topic": "Taj Mahal",
+    "question": "Who built the Taj Mahal?",
+    "questionType": "MCQ",
+    "difficulty": "EASY",
+    "options": ["Akbar", "Shah Jahan", "Aurangzeb", "Babur"],
+    "correctAnswer": ["Shah Jahan"],
+    "details": {
+      "explanation": "The Taj Mahal was built by Mughal Emperor Shah Jahan in memory of his wife Mumtaz Mahal.",
+      "hint": "Think about the Mughal emperor known for his love of architecture."
+    }
+  },
+  {
+    "id": "4",
+    "className": "Class 4",
+    "subject": "History",
+    "chapter": "Independence Movement",
+    "topic": "Quit India Movement",
+    "question": "In which year did the Quit India Movement start?",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "MEDIUM",
+    "answer": "1942",
+    "details": {
+      "explanation": "The Quit India Movement was launched by Mahatma Gandhi in 1942 to demand an end to British rule.",
+      "hint": "Think about the year during World War II."
+    }
+  },
+  {
+    "id": "5",
+    "className": "Class 5",
+    "subject": "History",
+    "chapter": "World History",
+    "topic": "World War I",
+    "question": "World War I started in which year?",
+    "questionType": "MCQ",
+    "difficulty": "MEDIUM",
+    "options": ["1914", "1918", "1939", "1945"],
+    "correctAnswer": ["1914"],
+    "details": {
+      "explanation": "World War I began in 1914 after the assassination of Archduke Franz Ferdinand.",
+      "hint": "Think about the early 20th century."
+    }
+  },
+  {
+    "id": "6",
+    "className": "Class 1",
+    "subject": "History",
+    "chapter": "Cultural Heritage",
+    "topic": "Festivals",
+    "question": "Which festival is known as the Festival of Lights?",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "EASY",
+    "answer": "Diwali",
+    "details": {
+      "explanation": "Diwali is celebrated by lighting lamps and is known as the Festival of Lights.",
+      "hint": "Think about a festival with fireworks and sweets."
+    }
+  },
+  {
+    "id": "7",
+    "className": "Class 2",
+    "subject": "History",
+    "chapter": "Famous Leaders",
+    "topic": "Rani Lakshmibai",
+    "question": "Rani Lakshmibai was the queen of which kingdom?",
+    "questionType": "MCQ",
+    "difficulty": "EASY",
+    "options": ["Maratha", "Mughal", "Jhansi", "Vijayanagara"],
+    "correctAnswer": ["Jhansi"],
+    "details": {
+      "explanation": "Rani Lakshmibai was the queen of the kingdom of Jhansi and a key figure in the 1857 revolt.",
+      "hint": "Think about the queen who fought against the British."
+    }
+  },
+  {
+    "id": "8",
+    "className": "Class 3",
+    "subject": "History",
+    "chapter": "Ancient Civilizations",
+    "topic": "Egypt",
+    "question": "The Great Pyramid of Giza is located in Egypt. (True/False)",
+    "questionType": "TRUE_FALSE",
+    "difficulty": "EASY",
+    "correctAnswer": ["True"],
+    "details": {
+      "explanation": "The Great Pyramid of Giza is one of the Seven Wonders of the Ancient World and is located in Egypt."
+    }
+  },
+  {
+    "id": "9",
+    "className": "Class 4",
+    "subject": "History",
+    "chapter": "World History",
+    "topic": "Explorers",
+    "question": "Who discovered America?",
+    "questionType": "MCQ",
+    "difficulty": "MEDIUM",
+    "options": ["Vasco da Gama", "Christopher Columbus", "Marco Polo", "Ferdinand Magellan"],
+    "correctAnswer": ["Christopher Columbus"],
+    "details": {
+      "explanation": "Christopher Columbus discovered America in 1492 while searching for a new route to India.",
+      "hint": "Think about the explorer who sailed across the Atlantic Ocean."
+    }
+  },
+  {
+    "id": "10",
+    "className": "Class 5",
+    "subject": "History",
+    "chapter": "Independence Movement",
+    "topic": "Non-Cooperation Movement",
+    "question": "Who led the Non-Cooperation Movement in India?",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "MEDIUM",
+    "answer": "Mahatma Gandhi",
+    "details": {
+      "explanation": "Mahatma Gandhi led the Non-Cooperation Movement in 1920 to oppose British rule.",
+      "hint": "Think about the leader who promoted non-violence."
+    }
+  },
+  {
+    "id": "11",
+    "className": "Class 1",
+    "subject": "History",
+    "chapter": "Cultural Heritage",
+    "topic": "National Symbols",
+    "question": "What is the national animal of India?",
+    "questionType": "MCQ",
+    "difficulty": "EASY",
+    "options": ["Lion", "Tiger", "Elephant", "Peacock"],
+    "correctAnswer": ["Tiger"],
+    "details": {
+      "explanation": "The tiger is the national animal of India.",
+      "hint": "Think about a big cat found in Indian forests."
+    }
+  },
+  {
+    "id": "12",
+    "className": "Class 2",
+    "subject": "History",
+    "chapter": "Ancient Civilizations",
+    "topic": "Romans",
+    "question": "The Romans built the Colosseum. (True/False)",
+    "questionType": "TRUE_FALSE",
+    "difficulty": "EASY",
+    "correctAnswer": ["True"],
+    "details": {
+      "explanation": "The Colosseum was built by the Romans as an amphitheater for gladiatorial contests."
+    }
+  },
+  {
+    "id": "13",
+    "className": "Class 3",
+    "subject": "History",
+    "chapter": "Famous Leaders",
+    "topic": "Subhas Chandra Bose",
+    "question": "What was the slogan given by Subhas Chandra Bose?",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "MEDIUM",
+    "answer": "Give me blood, and I shall give you freedom",
+    "details": {
+      "explanation": "Subhas Chandra Bose gave the slogan 'Give me blood, and I shall give you freedom' to inspire Indians to fight for independence.",
+      "hint": "Think about a famous freedom fighter's powerful words."
+    }
+  },
+  {
+    "id": "14",
+    "className": "Class 4",
+    "subject": "History",
+    "chapter": "World History",
+    "topic": "French Revolution",
+    "question": "The French Revolution started in which year?",
+    "questionType": "MCQ",
+    "difficulty": "MEDIUM",
+    "options": ["1776", "1789", "1812", "1848"],
+    "correctAnswer": ["1789"],
+    "details": {
+      "explanation": "The French Revolution began in 1789, leading to the end of the monarchy.",
+      "hint": "Think about the late 18th century."
+    }
+  },
+  {
+    "id": "15",
+    "className": "Class 5",
+    "subject": "History",
+    "chapter": "Cultural Heritage",
+    "topic": "Dances",
+    "question": "Which classical dance form originated in Tamil Nadu?",
+    "questionType": "MCQ",
+    "difficulty": "MEDIUM",
+    "options": ["Bharatanatyam", "Kathak", "Odissi", "Kuchipudi"],
+    "correctAnswer": ["Bharatanatyam"],
+    "details": {
+      "explanation": "Bharatanatyam is a classical dance form that originated in Tamil Nadu.",
+      "hint": "Think about a dance form with intricate hand gestures."
+    }
+  },
+  {
+    "id": "16",
+    "className": "Class 1",
+    "subject": "History",
+    "chapter": "Famous Monuments",
+    "topic": "Red Fort",
+    "question": "Where is the Red Fort located?",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "EASY",
+    "answer": "Delhi",
+    "details": {
+      "explanation": "The Red Fort is located in Delhi and was built by Mughal Emperor Shah Jahan.",
+      "hint": "Think about the capital of India."
+    }
+  },
+  {
+    "id": "17",
+    "className": "Class 2",
+    "subject": "History",
+    "chapter": "Ancient Civilizations",
+    "topic": "Chinese Civilization",
+    "question": "The Great Wall of China was built to protect against invaders. (True/False)",
+    "questionType": "TRUE_FALSE",
+    "difficulty": "EASY",
+    "correctAnswer": ["True"],
+    "details": {
+      "explanation": "The Great Wall of China was built to protect the Chinese Empire from invasions."
+    }
+  },
+  {
+    "id": "18",
+    "className": "Class 3",
+    "subject": "History",
+    "chapter": "Famous Leaders",
+    "topic": "Jawaharlal Nehru",
+    "question": "Who was the first Prime Minister of India?",
+    "questionType": "MCQ",
+    "difficulty": "EASY",
+    "options": ["Mahatma Gandhi", "Jawaharlal Nehru", "Sardar Patel", "Subhas Chandra Bose"],
+    "correctAnswer": ["Jawaharlal Nehru"],
+    "details": {
+      "explanation": "Jawaharlal Nehru was the first Prime Minister of India after independence.",
+      "hint": "Think about the leader who loved children."
+    }
+  },
+  {
+    "id": "19",
+    "className": "Class 4",
+    "subject": "History",
+    "chapter": "World History",
+    "topic": "Industrial Revolution",
+    "question": "The Industrial Revolution began in which country?",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "MEDIUM",
+    "answer": "England",
+    "details": {
+      "explanation": "The Industrial Revolution began in England in the 18th century.",
+      "hint": "Think about the country known for its factories and machines."
+    }
+  },
+  {
+    "id": "20",
+    "className": "Class 5",
+    "subject": "History",
+    "chapter": "Cultural Heritage",
+    "topic": "Languages",
+    "question": "Which is the oldest language in the world?",
+    "questionType": "MCQ",
+    "difficulty": "MEDIUM",
+    "options": ["Sanskrit", "Tamil", "Greek", "Latin"],
+    "correctAnswer": ["Tamil"],
+    "details": {
+      "explanation": "Tamil is considered one of the oldest languages in the world, with a history of over 2,000 years.",
+      "hint": "Think about a classical language from South India."
+    }
+  }
+]

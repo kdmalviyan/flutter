@@ -119,12 +119,11 @@ class _QuizListingScreenState extends State<QuizListingScreen>
   }
 
   PreferredSizeWidget _buildAppBar() {
-    final int appliedFiltersCount =
-        [
-          selectedClass,
-          selectedSubject,
-          selectedDifficulty,
-        ].where((filter) => filter != null).length;
+    final int appliedFiltersCount = [
+      selectedClass,
+      selectedSubject,
+      selectedDifficulty,
+    ].where((filter) => filter != null).length;
 
     return AppBar(
       title: const Text('Quiz Library'),
@@ -208,12 +207,11 @@ class _QuizListingScreenState extends State<QuizListingScreen>
   }
 
   Widget _buildAppliedFilters() {
-    final List<String?> appliedFilters =
-        [
-          selectedClass,
-          selectedSubject,
-          selectedDifficulty,
-        ].where((filter) => filter != null).toList();
+    final List<String?> appliedFilters = [
+      selectedClass,
+      selectedSubject,
+      selectedDifficulty,
+    ].where((filter) => filter != null).toList();
 
     if (appliedFilters.isEmpty) return const SizedBox.shrink();
 
@@ -221,20 +219,19 @@ class _QuizListingScreenState extends State<QuizListingScreen>
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Wrap(
         spacing: 8,
-        children:
-            appliedFilters.map((filter) {
-              return Chip(
-                label: Text(filter!),
-                onDeleted: () {
-                  setState(() {
-                    if (selectedClass == filter) selectedClass = null;
-                    if (selectedSubject == filter) selectedSubject = null;
-                    if (selectedDifficulty == filter) selectedDifficulty = null;
-                    _fetchQuizzes();
-                  });
-                },
-              );
-            }).toList(),
+        children: appliedFilters.map((filter) {
+          return Chip(
+            label: Text(filter!),
+            onDeleted: () {
+              setState(() {
+                if (selectedClass == filter) selectedClass = null;
+                if (selectedSubject == filter) selectedSubject = null;
+                if (selectedDifficulty == filter) selectedDifficulty = null;
+                _fetchQuizzes();
+              });
+            },
+          );
+        }).toList(),
       ),
     );
   }
@@ -324,26 +321,25 @@ class _QuizListingScreenState extends State<QuizListingScreen>
         const SizedBox(height: 8),
         Wrap(
           spacing: 8,
-          children:
-              filters.map((filter) {
-                final bool isSelected = selectedFilter == filter;
-                return FilterChip(
-                  label: Text(
-                    filter,
-                    style: TextStyle(
-                      color: isSelected ? AppColors.white : AppColors.darkGrey,
-                    ),
-                  ),
-                  selected: isSelected,
-                  onSelected: (selected) {
-                    onFilterSelected(selected ? filter : null);
-                    setState(() {});
-                  },
-                  selectedColor: AppColors.primaryColor,
-                  backgroundColor: AppColors.lightGrey.withOpacity(0.1),
-                  checkmarkColor: AppColors.white,
-                );
-              }).toList(),
+          children: filters.map((filter) {
+            final bool isSelected = selectedFilter == filter;
+            return FilterChip(
+              label: Text(
+                filter,
+                style: TextStyle(
+                  color: isSelected ? AppColors.white : AppColors.darkGrey,
+                ),
+              ),
+              selected: isSelected,
+              onSelected: (selected) {
+                onFilterSelected(selected ? filter : null);
+                setState(() {});
+              },
+              selectedColor: AppColors.primaryColor,
+              backgroundColor: AppColors.lightGrey.withOpacity(0.1),
+              checkmarkColor: AppColors.white,
+            );
+          }).toList(),
         ),
       ],
     );
@@ -379,7 +375,6 @@ class _QuizListingScreenState extends State<QuizListingScreen>
   }
 
   Widget _buildQuizCard(Map<String, dynamic> quiz) {
-    print(quiz);
     return Card(
       elevation: 4,
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
@@ -490,18 +485,17 @@ class _QuizListingScreenState extends State<QuizListingScreen>
       highlightColor: AppColors.shimmerHighlight,
       child: ListView.builder(
         itemCount: 6,
-        itemBuilder:
-            (context, index) => Card(
-              margin: const EdgeInsets.all(10),
-              child: Container(
-                height: 120,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-              ),
+        itemBuilder: (context, index) => Card(
+          margin: const EdgeInsets.all(10),
+          child: Container(
+            height: 120,
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(15),
             ),
+          ),
+        ),
       ),
     );
   }
@@ -526,6 +520,7 @@ class _QuizListingScreenState extends State<QuizListingScreen>
   }
 
   void _navigateToQuiz(Map<String, dynamic> quiz) {
+    print("_navigateToQuiz: $quiz");
     final quizData = Quiz(
       id: quiz['id'],
       title: quiz['title'],
@@ -533,9 +528,10 @@ class _QuizListingScreenState extends State<QuizListingScreen>
       className: quiz['className'],
       duration: quiz['duration'],
       questionCount: quiz['questionCount'],
-      difficulty: quiz['difficulty'],
+      difficulty: stringToDifficulty(quiz['difficulty']),
       averageScore: quiz['averageScore'],
       participants: quiz['participants'],
+      questions: quiz['questions'],
       createdAt: quiz['createdAt'],
     );
 
@@ -545,6 +541,19 @@ class _QuizListingScreenState extends State<QuizListingScreen>
         builder: (context) => QuizScreen(token: widget.token, quiz: quizData),
       ),
     );
+  }
+
+  Difficulty stringToDifficulty(String difficulty) {
+    switch (difficulty) {
+      case 'EASY':
+        return Difficulty.EASY;
+      case 'MEDIUM':
+        return Difficulty.MEDIUM;
+      case 'HARD':
+        return Difficulty.HARD;
+      default:
+        throw ArgumentError('Invalid difficulty string: $difficulty');
+    }
   }
 
   @override
