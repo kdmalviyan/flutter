@@ -46,10 +46,13 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
         // Use the questions from the Quiz object
         _questions = widget.quiz.questions.map((question) {
           return {
-            'question': question.question,
-            'options': question.options,
-            'correctAnswer': question.correctAnswer.isNotEmpty
-                ? question.correctAnswer[0]
+            'question': question['question'], // Access 'question' key
+            'options': (question['options'] as List<dynamic>)
+                .cast<String>(), // Cast to List<String>
+            'correctAnswer': question['correctAnswer'] != null &&
+                    question['correctAnswer'].isNotEmpty
+                ? (question['correctAnswer'] as List<dynamic>).cast<String>()[
+                    0] // Cast to List<String> and access first element
                 : null,
           };
         }).toList();
