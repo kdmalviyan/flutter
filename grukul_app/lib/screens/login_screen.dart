@@ -112,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 120,
                         errorBuilder: (context, error, stackTrace) {
                           return Image.asset(
-                            'assets/images/school_default_logo.png',
+                            'images/school_default_logo.png',
                             fit: BoxFit.cover,
                             width: 120,
                             height: 120,

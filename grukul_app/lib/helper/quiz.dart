@@ -1,6 +1,12 @@
 enum Difficulty { EASY, MEDIUM, HARD }
 
-enum QuestionType { MCQ, TRUE_FALSE, FREE_FORM_ANSWER, SCALE_ANSWER }
+enum QuestionType {
+  MCQ,
+  TRUE_FALSE,
+  MULTIPLE_CHOICE,
+  SCALE_ANSWER,
+  FREE_FORM_ANSWER
+}
 
 class Question {
   final String id;

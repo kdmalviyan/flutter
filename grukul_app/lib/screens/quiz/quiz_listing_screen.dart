@@ -520,7 +520,6 @@ class _QuizListingScreenState extends State<QuizListingScreen>
   }
 
   void _navigateToQuiz(Map<String, dynamic> quiz) {
-    print("_navigateToQuiz: $quiz");
     final quizData = Quiz(
       id: quiz['id'],
       title: quiz['title'],

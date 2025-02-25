@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:mcq_learning_app/helper/app_colors.dart';
 import 'package:mcq_learning_app/helper/app_theme.dart';
 import 'package:mcq_learning_app/helper/quiz.dart';
+import 'package:mcq_learning_app/screens/quiz/question_type_widget/free_form_answer_question_widget.dart';
+import 'package:mcq_learning_app/screens/quiz/question_type_widget/multiple_choice_question_widget.dart';
+import 'package:mcq_learning_app/screens/quiz/question_type_widget/scale_answer_question_widget.dart';
 import 'package:mcq_learning_app/screens/quiz/quiz_results_screen.dart';
+import 'package:mcq_learning_app/screens/quiz/question_type_widget/mcq_question_widget.dart';
+import 'package:mcq_learning_app/screens/quiz/question_type_widget/true_false_question_widget.dart';
 
 class QuizQuestionsScreen extends StatefulWidget {
   final String token;
@@ -24,36 +29,56 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
   List<Map<String, dynamic>> _questions = [];
   int _score = 0;
   String? _selectedAnswer;
-  int _timeRemaining = 12; // Timer duration
+  int _timeRemaining = 30; // Configurable timer duration
   Timer? _timer;
 
   @override
   void initState() {
     super.initState();
+    _timeRemaining =
+        widget.quiz.duration ?? 30; // Default to 30 if not provided
     _initializeQuestions();
     _startTimer();
   }
 
   @override
   void dispose() {
-    _timer?.cancel(); // Cancel the timer when the widget is disposed
+    _timer?.cancel();
     super.dispose();
+  }
+
+  QuestionType _getQuestionTypeFromString(String type) {
+    switch (type) {
+      case "MCQ":
+        return QuestionType.MCQ;
+      case "TRUE_FALSE":
+        return QuestionType.TRUE_FALSE;
+      case "MULTIPLE_CHOICE":
+        return QuestionType.MULTIPLE_CHOICE;
+      case "SCALE_ANSWER":
+        return QuestionType.SCALE_ANSWER;
+      case "FREE_FORM_ANSWER":
+        return QuestionType.FREE_FORM_ANSWER;
+      default:
+        throw ArgumentError("Unknown question type: $type");
+    }
   }
 
   void _initializeQuestions() {
     if (mounted) {
       setState(() {
-        // Use the questions from the Quiz object
         _questions = widget.quiz.questions.map((question) {
           return {
-            'question': question['question'], // Access 'question' key
-            'options': (question['options'] as List<dynamic>)
-                .cast<String>(), // Cast to List<String>
-            'correctAnswer': question['correctAnswer'] != null &&
-                    question['correctAnswer'].isNotEmpty
-                ? (question['correctAnswer'] as List<dynamic>).cast<String>()[
-                    0] // Cast to List<String> and access first element
-                : null,
+            'question': question['question'] ?? 'No question provided',
+            'options':
+                (question['options'] as List<dynamic>?)?.cast<String>() ?? [],
+            'correctAnswer':
+                (question['correctAnswer'] as List<dynamic>?)?.cast<String>() ??
+                    [],
+            'type':
+                _getQuestionTypeFromString(question['questionType'] ?? 'MCQ'),
+            'details': question['details'] ?? {},
+            'difficulty': question['difficulty'] ?? 'UNKNOWN',
           };
         }).toList();
       });
@@ -61,7 +86,13 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
   }
 
   void _startTimer() {
+    _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
+
       if (_timeRemaining > 0) {
         if (mounted) {
           setState(() {
@@ -69,21 +100,22 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
           });
         }
       } else {
-        _handleAnswer(null); // Time's up
-        _timer?.cancel(); // Stop the timer
+        _handleAnswer(null);
+        _timer?.cancel();
       }
     });
   }
 
   void _handleAnswer(String? selectedAnswer) {
-    if (mounted) {
-      setState(() {
-        _selectedAnswer = selectedAnswer;
-      });
-    }
+    if (!mounted) return;
 
-    final correctAnswer = _questions[_currentQuestionIndex]['correctAnswer'];
-    if (selectedAnswer == correctAnswer) {
+    setState(() {
+      _selectedAnswer = selectedAnswer;
+    });
+
+    final correctAnswers =
+        _questions[_currentQuestionIndex]['correctAnswer'] as List<String>?;
+    if (correctAnswers != null && correctAnswers.contains(selectedAnswer)) {
       if (mounted) {
         setState(() {
           _score++;
@@ -91,11 +123,13 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
       }
     }
 
-    // Show feedback before moving to the next question
-    _showFeedback(selectedAnswer == correctAnswer);
+    _showFeedback(
+        correctAnswers != null && correctAnswers.contains(selectedAnswer));
   }
 
   void _showFeedback(bool isCorrect) {
+    if (!mounted) return;
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(isCorrect ? 'Correct! 🎉' : 'Incorrect! 😢'),
@@ -105,19 +139,18 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
       ),
     );
 
-    // Move to the next question after a delay
     Future.delayed(const Duration(seconds: 1), () {
-      if (mounted) {
-        if (_currentQuestionIndex < _questions.length - 1) {
-          setState(() {
-            _currentQuestionIndex++;
-            _selectedAnswer = null; // Reset selected answer
-            _timeRemaining = 12; // Reset timer
-            _startTimer(); // Restart the timer
-          });
-        } else {
-          _showResults();
-        }
+      if (!mounted) return;
+
+      if (_currentQuestionIndex < _questions.length - 1) {
+        setState(() {
+          _currentQuestionIndex++;
+          _selectedAnswer = null;
+          _timeRemaining = widget.quiz.duration ?? 30;
+          _startTimer();
+        });
+      } else {
+        _showResults();
       }
     });
   }
@@ -134,6 +167,48 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
         ),
       ),
     );
+  }
+
+  Widget _buildQuestionWidget(Map<String, dynamic> question) {
+    final questionType = question['type'] as QuestionType;
+
+    switch (questionType) {
+      case QuestionType.MCQ:
+        return MCQQuestionWidget(
+          question: question,
+          onAnswerSelected: _selectedAnswer == null ? _handleAnswer : null,
+          timeRemaining: _timeRemaining,
+          selectedAnswer: _selectedAnswer,
+        );
+      case QuestionType.TRUE_FALSE:
+        return TrueFalseQuestionWidget(
+          question: question,
+          onAnswerSelected: _selectedAnswer == null ? _handleAnswer : null,
+          timeRemaining: _timeRemaining,
+          selectedAnswer: _selectedAnswer,
+        );
+      case QuestionType.MULTIPLE_CHOICE:
+        return MultipleChoiceQuestionWidget(
+          question: question,
+          onAnswerSelected: _selectedAnswer == null ? _handleAnswer : null,
+          timeRemaining: _timeRemaining,
+          selectedAnswer: _selectedAnswer,
+        );
+      case QuestionType.SCALE_ANSWER:
+        return ScaleAnswerQuestionWidget(
+          question: question,
+          onAnswerSelected: _selectedAnswer == null ? _handleAnswer : null,
+          timeRemaining: _timeRemaining,
+          selectedAnswer: _selectedAnswer,
+        );
+      case QuestionType.FREE_FORM_ANSWER:
+        return FreeFormAnswerQuestionWidget(
+          question: question,
+          onAnswerSelected: _selectedAnswer == null ? _handleAnswer : null,
+          timeRemaining: _timeRemaining,
+          selectedAnswer: _selectedAnswer,
+        );
+    }
   }
 
   @override
@@ -183,51 +258,34 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
               ),
               const SizedBox(height: 20),
 
+              // Display difficulty (if available)
+              if (currentQuestion['difficulty'] != null)
+                Text(
+                  'Difficulty: ${currentQuestion['difficulty']}',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
+                ),
+              const SizedBox(height: 10),
+
               // Question Text
               Text(
                 currentQuestion['question'],
-                style: AppTheme.lightTheme.textTheme.displayLarge,
+                style: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  height: 1.5,
+                ),
+                maxLines: 5,
+                overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(height: 20),
 
-              // Options
+              // Render the appropriate question widget
               Expanded(
-                child: ListView(
-                  children: (currentQuestion['options'] as List<String>)
-                      .map((option) {
-                    final isSelected = _selectedAnswer == option;
-                    final isCorrect =
-                        option == currentQuestion['correctAnswer'];
-
-                    return Card(
-                      elevation: 2,
-                      margin: const EdgeInsets.symmetric(vertical: 8),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      color: isSelected
-                          ? (isCorrect
-                              ? AppColors.successColor
-                              : AppColors.errorColor)
-                          : AppColors.white,
-                      child: ListTile(
-                        title: Text(
-                          option,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: isSelected
-                                ? AppColors.white
-                                : AppColors.darkGrey,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        onTap: _selectedAnswer == null
-                            ? () => _handleAnswer(option)
-                            : null, // Disable after selection
-                      ),
-                    );
-                  }).toList(),
-                ),
+                child: _buildQuestionWidget(currentQuestion),
               ),
             ],
           ),
