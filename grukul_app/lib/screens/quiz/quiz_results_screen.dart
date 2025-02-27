@@ -11,6 +11,7 @@ class QuizResultsScreen extends StatefulWidget {
   final Quiz quiz;
   final List<Map<String, dynamic>> questions;
   final int score;
+  final List<Map<String, dynamic>> userResponses; // Added userResponses
 
   const QuizResultsScreen({
     Key? key,
@@ -18,6 +19,7 @@ class QuizResultsScreen extends StatefulWidget {
     required this.quiz,
     required this.questions,
     required this.score,
+    required this.userResponses, // Added userResponses
   }) : super(key: key);
 
   @override
