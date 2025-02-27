@@ -1,14 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:mcq_learning_app/helper/app_colors.dart';
 import 'package:mcq_learning_app/helper/app_theme.dart';
 import 'package:mcq_learning_app/helper/quiz.dart';
 import 'package:mcq_learning_app/screens/quiz/question_type_widget/free_form_answer_question_widget.dart';
+import 'package:mcq_learning_app/screens/quiz/question_type_widget/mcq_question_widget.dart';
 import 'package:mcq_learning_app/screens/quiz/question_type_widget/multiple_choice_question_widget.dart';
 import 'package:mcq_learning_app/screens/quiz/question_type_widget/scale_answer_question_widget.dart';
-import 'package:mcq_learning_app/screens/quiz/quiz_results_screen.dart';
-import 'package:mcq_learning_app/screens/quiz/question_type_widget/mcq_question_widget.dart';
 import 'package:mcq_learning_app/screens/quiz/question_type_widget/true_false_question_widget.dart';
+import 'package:mcq_learning_app/screens/quiz/quiz_results_screen.dart';
 
 class QuizQuestionsScreen extends StatefulWidget {
   final String token;
@@ -28,15 +30,15 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
   int _currentQuestionIndex = 0;
   List<Map<String, dynamic>> _questions = [];
   int _score = 0;
-  String? _selectedAnswer;
-  int _timeRemaining = 30; // Configurable timer duration
+  List<dynamic> _selectedAnswers =
+      []; // Store selected answers for each question
+  int _timeRemaining = 1800; // 30 minutes in seconds (global timer)
   Timer? _timer;
 
   @override
   void initState() {
     super.initState();
-    _timeRemaining =
-        widget.quiz.duration ?? 30; // Default to 30 if not provided
+    _timeRemaining = widget.quiz.duration * 60 ?? 1800; // Default to 30 minutes
     _initializeQuestions();
     _startTimer();
   }
@@ -81,13 +83,15 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
             'difficulty': question['difficulty'] ?? 'UNKNOWN',
           };
         }).toList();
+        // Initialize selected answers list
+        _selectedAnswers = List.filled(_questions.length, null);
       });
     }
   }
 
   void _startTimer() {
     _timer?.cancel();
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       if (!mounted) {
         timer.cancel();
         return;
@@ -100,8 +104,12 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
           });
         }
       } else {
-        _handleAnswer(null);
-        _timer?.cancel();
+        // Timer expired, auto-submit the quiz
+        timer.cancel(); // Stop the timer
+        await _submitResponses(); // Submit responses
+        if (mounted) {
+          _showResults(); // Navigate to results screen
+        }
       }
     });
   }
@@ -110,52 +118,96 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
     if (!mounted) return;
 
     setState(() {
-      _selectedAnswer = selectedAnswer;
-    });
+      final currentQuestion = _questions[_currentQuestionIndex];
+      final questionType = currentQuestion['type'] as QuestionType;
 
-    final correctAnswers =
-        _questions[_currentQuestionIndex]['correctAnswer'] as List<String>?;
-    if (correctAnswers != null && correctAnswers.contains(selectedAnswer)) {
-      if (mounted) {
-        setState(() {
-          _score++;
-        });
+      if (questionType == QuestionType.MULTIPLE_CHOICE) {
+        // For multiple-choice questions, handle multiple selections
+        List<String> selectedAnswers =
+            (_selectedAnswers[_currentQuestionIndex] as List<String>?) ?? [];
+        if (selectedAnswers.contains(selectedAnswer)) {
+          // If already selected, remove it
+          selectedAnswers.remove(selectedAnswer);
+        } else {
+          // If not selected, add it
+          selectedAnswers.add(selectedAnswer!);
+        }
+        _selectedAnswers[_currentQuestionIndex] = selectedAnswers;
+      } else {
+        // For other question types, store a single answer
+        _selectedAnswers[_currentQuestionIndex] = selectedAnswer;
       }
-    }
-
-    _showFeedback(
-        correctAnswers != null && correctAnswers.contains(selectedAnswer));
+    });
   }
 
-  void _showFeedback(bool isCorrect) {
-    if (!mounted) return;
+  void _goToNextQuestion() {
+    if (_currentQuestionIndex < _questions.length - 1) {
+      setState(() {
+        _currentQuestionIndex++;
+      });
+    } else {
+      // If it's the last question, submit the quiz
+      _submitResponses().then((_) {
+        if (mounted) {
+          _showResults();
+        }
+      });
+    }
+  }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(isCorrect ? 'Correct! 🎉' : 'Incorrect! 😢'),
-        backgroundColor:
-            isCorrect ? AppColors.successColor : AppColors.errorColor,
-        duration: const Duration(seconds: 1),
-      ),
-    );
+  void _goToPreviousQuestion() {
+    if (_currentQuestionIndex > 0) {
+      setState(() {
+        _currentQuestionIndex--;
+      });
+    }
+  }
 
-    Future.delayed(const Duration(seconds: 1), () {
-      if (!mounted) return;
+  Future<void> _submitResponses() async {
+    final url = Uri.parse('https://your-backend-api.com/submit-responses');
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${widget.token}',
+        },
+        body: jsonEncode({
+          'quizId': widget.quiz.id,
+          'responses': _selectedAnswers
+              .asMap()
+              .entries
+              .map((entry) => {
+                    'question': _questions[entry.key]['question'],
+                    'selectedAnswer': entry.value,
+                    'correctAnswer': _questions[entry.key]['correctAnswer'],
+                  })
+              .toList(),
+        }),
+      );
 
-      if (_currentQuestionIndex < _questions.length - 1) {
-        setState(() {
-          _currentQuestionIndex++;
-          _selectedAnswer = null;
-          _timeRemaining = widget.quiz.duration ?? 30;
-          _startTimer();
-        });
-      } else {
-        _showResults();
+      if (response.statusCode != 200) {
+        // Handle error
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Failed to submit responses. Please try again.'),
+            backgroundColor: AppColors.errorColor,
+          ),
+        );
       }
-    });
+    } catch (e) {
+      // Handle network or other errors
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('An error occurred. Please check your connection.'),
+          backgroundColor: AppColors.errorColor,
+        ),
+      );
+    }
   }
 
   void _showResults() {
+    if (!mounted) return; // Ensure the widget is still mounted
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
@@ -164,6 +216,15 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
           quiz: widget.quiz,
           questions: _questions,
           score: _score,
+          userResponses: _selectedAnswers
+              .asMap()
+              .entries
+              .map((entry) => {
+                    'question': _questions[entry.key]['question'],
+                    'selectedAnswer': entry.value,
+                    'correctAnswer': _questions[entry.key]['correctAnswer'],
+                  })
+              .toList(),
         ),
       ),
     );
@@ -176,37 +237,37 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
       case QuestionType.MCQ:
         return MCQQuestionWidget(
           question: question,
-          onAnswerSelected: _selectedAnswer == null ? _handleAnswer : null,
-          timeRemaining: _timeRemaining,
-          selectedAnswer: _selectedAnswer,
+          onAnswerSelected: _handleAnswer,
+          selectedAnswer:
+              _selectedAnswers[_currentQuestionIndex], // Load selected answer
         );
       case QuestionType.TRUE_FALSE:
         return TrueFalseQuestionWidget(
           question: question,
-          onAnswerSelected: _selectedAnswer == null ? _handleAnswer : null,
-          timeRemaining: _timeRemaining,
-          selectedAnswer: _selectedAnswer,
+          onAnswerSelected: _handleAnswer,
+          selectedAnswer:
+              _selectedAnswers[_currentQuestionIndex], // Load selected answer
         );
       case QuestionType.MULTIPLE_CHOICE:
         return MultipleChoiceQuestionWidget(
           question: question,
-          onAnswerSelected: _selectedAnswer == null ? _handleAnswer : null,
-          timeRemaining: _timeRemaining,
-          selectedAnswer: _selectedAnswer,
+          onAnswerSelected: _handleAnswer,
+          selectedAnswers: _selectedAnswers[_currentQuestionIndex]
+              as List<String>?, // Pass selected answers
         );
       case QuestionType.SCALE_ANSWER:
         return ScaleAnswerQuestionWidget(
           question: question,
-          onAnswerSelected: _selectedAnswer == null ? _handleAnswer : null,
-          timeRemaining: _timeRemaining,
-          selectedAnswer: _selectedAnswer,
+          onAnswerSelected: _handleAnswer,
+          selectedAnswer:
+              _selectedAnswers[_currentQuestionIndex], // Load selected answer
         );
       case QuestionType.FREE_FORM_ANSWER:
         return FreeFormAnswerQuestionWidget(
           question: question,
-          onAnswerSelected: _selectedAnswer == null ? _handleAnswer : null,
-          timeRemaining: _timeRemaining,
-          selectedAnswer: _selectedAnswer,
+          onAnswerSelected: _handleAnswer,
+          selectedAnswer:
+              _selectedAnswers[_currentQuestionIndex], // Load selected answer
         );
     }
   }
@@ -244,14 +305,14 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Timer
+              // Global Timer
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Icon(Icons.timer, color: AppColors.white),
                   const SizedBox(width: 5),
                   Text(
-                    '$_timeRemaining sec',
+                    '${(_timeRemaining ~/ 60).toString().padLeft(2, '0')}:${(_timeRemaining % 60).toString().padLeft(2, '0')}',
                     style: AppTheme.lightTheme.textTheme.bodyLarge,
                   ),
                 ],
@@ -286,6 +347,30 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
               // Render the appropriate question widget
               Expanded(
                 child: _buildQuestionWidget(currentQuestion),
+              ),
+
+              // Navigation Buttons
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Previous Button
+                  ElevatedButton(
+                    onPressed: _currentQuestionIndex > 0
+                        ? _goToPreviousQuestion
+                        : null, // Disable on first question
+                    child: const Text('Previous'),
+                  ),
+
+                  // Next Button
+                  ElevatedButton(
+                    onPressed: _goToNextQuestion,
+                    child: Text(
+                      _currentQuestionIndex < _questions.length - 1
+                          ? 'Next'
+                          : 'Submit',
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

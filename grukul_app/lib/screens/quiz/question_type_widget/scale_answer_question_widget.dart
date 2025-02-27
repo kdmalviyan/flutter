@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 class ScaleAnswerQuestionWidget extends StatelessWidget {
   final Map<String, dynamic> question;
   final Function(String?)? onAnswerSelected;
-  final int timeRemaining;
   final String? selectedAnswer;
 
   const ScaleAnswerQuestionWidget({
     Key? key,
     required this.question,
     required this.onAnswerSelected,
-    required this.timeRemaining,
     required this.selectedAnswer,
   }) : super(key: key);
 
@@ -19,20 +17,34 @@ class ScaleAnswerQuestionWidget extends StatelessWidget {
     final scaleMin = question['scaleMin'] ?? 1;
     final scaleMax = question['scaleMax'] ?? 10;
 
+    // Parse the selected answer to a double (or use the midpoint if no answer is selected)
+    final currentValue = selectedAnswer != null
+        ? double.parse(selectedAnswer!)
+        : (scaleMin + scaleMax) / 2;
+
     return Column(
       children: [
         // Display scale slider
         Slider(
-          value: selectedAnswer != null
-              ? double.parse(selectedAnswer!)
-              : (scaleMin + scaleMax) / 2,
+          value: currentValue,
           min: scaleMin.toDouble(),
           max: scaleMax.toDouble(),
           divisions: scaleMax - scaleMin,
-          label: selectedAnswer ?? ((scaleMin + scaleMax) / 2).toString(),
-          onChanged: onAnswerSelected != null && selectedAnswer == null
-              ? (value) => onAnswerSelected!(value.toString())
+          label: currentValue.toString(),
+          onChanged: onAnswerSelected != null
+              ? (value) {
+                  // Update the selected value
+                  onAnswerSelected!(value.toString());
+                }
               : null,
+        ),
+        // Display the selected value
+        Text(
+          'Selected Value: ${currentValue.toStringAsFixed(1)}',
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );

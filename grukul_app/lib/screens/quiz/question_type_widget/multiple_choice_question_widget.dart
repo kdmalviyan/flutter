@@ -4,15 +4,13 @@ import 'package:mcq_learning_app/helper/app_colors.dart';
 class MultipleChoiceQuestionWidget extends StatelessWidget {
   final Map<String, dynamic> question;
   final Function(String?)? onAnswerSelected;
-  final int timeRemaining;
-  final String? selectedAnswer;
+  final List<String>? selectedAnswers;
 
   const MultipleChoiceQuestionWidget({
     Key? key,
     required this.question,
     required this.onAnswerSelected,
-    required this.timeRemaining,
-    required this.selectedAnswer,
+    required this.selectedAnswers,
   }) : super(key: key);
 
   @override
@@ -21,7 +19,7 @@ class MultipleChoiceQuestionWidget extends StatelessWidget {
       children: [
         // Display options
         ...(question['options'] as List<String>).map((option) {
-          final isSelected = selectedAnswer == option;
+          final isSelected = selectedAnswers?.contains(option) ?? false;
           return Card(
             elevation: 2,
             margin: const EdgeInsets.symmetric(vertical: 8),
@@ -36,8 +34,8 @@ class MultipleChoiceQuestionWidget extends StatelessWidget {
                   color: isSelected ? Colors.white : Colors.black,
                 ),
               ),
-              onTap: onAnswerSelected != null && selectedAnswer == null
-                  ? () => onAnswerSelected!(option)
+              onTap: onAnswerSelected != null
+                  ? () => onAnswerSelected!(option) // Allow re-selection
                   : null,
             ),
           );

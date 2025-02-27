@@ -4,14 +4,12 @@ import 'package:mcq_learning_app/helper/app_colors.dart';
 class MCQQuestionWidget extends StatelessWidget {
   final Map<String, dynamic> question;
   final Function(String?)? onAnswerSelected;
-  final int timeRemaining;
   final String? selectedAnswer;
 
   const MCQQuestionWidget({
     Key? key,
     required this.question,
     required this.onAnswerSelected,
-    required this.timeRemaining,
     required this.selectedAnswer,
   }) : super(key: key);
 
@@ -40,8 +38,8 @@ class MCQQuestionWidget extends StatelessWidget {
                       color: isSelected ? Colors.white : Colors.black,
                     ),
                   ),
-                  onTap: onAnswerSelected != null && selectedAnswer == null
-                      ? () => onAnswerSelected!(option)
+                  onTap: onAnswerSelected != null
+                      ? () => onAnswerSelected!(option) // Allow re-selection
                       : null,
                 ),
               );

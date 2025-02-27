@@ -1,0 +1,30 @@
+[
+  {
+    "id": "1",
+    "className": "Class 2",
+    "subject": "History",
+    "chapter": "Ancient Civilizations",
+    "topic": "Indus Valley",
+    "question": "The Indus Valley Civilization was located in present-day India and Pakistan. (True/False)",
+    "questionType": "TRUE_FALSE",
+    "difficulty": "EASY",
+    "correctAnswer": ["True"],
+    "details": {
+      "explanation": "The Indus Valley Civilization flourished in the regions of modern-day India and Pakistan."
+    }
+  },
+  {
+    "id": "1",
+    "className": "Class 2",
+    "subject": "History",
+    "chapter": "Ancient Civilizations",
+    "topic": "Indus Valley",
+    "question": "Kali-Banga situated in Pakistaan",
+    "questionType": "TRUE_FALSE",
+    "difficulty": "EASY",
+    "correctAnswer": ["False"],
+    "details": {
+      "explanation": "The Indus Valley Civilization flourished in the regions of modern-day India and Pakistan."
+    }
+  }
+]

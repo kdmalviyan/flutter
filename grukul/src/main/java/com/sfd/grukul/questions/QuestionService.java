@@ -21,9 +21,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class QuestionService {
     private final ObjectMapper objectMapper;
-    private List<Question> history = new ArrayList<Question>();
-    private List<Question> science = new ArrayList<Question>();
-    private List<Question> maths = new ArrayList<Question>();
+//    private List<Question> history = new ArrayList<Question>();
+//    private List<Question> science = new ArrayList<Question>();
+//    private List<Question> maths = new ArrayList<Question>();
     private List<Question> allQuestions = new ArrayList<Question>();
 
     @PostConstruct
@@ -32,12 +32,17 @@ public class QuestionService {
     }
 
     private void loadSchoolsFromJson() {
-        this.history = loadQuestions("questions/history.json");
-        this.science = loadQuestions("questions/science.json");
-        this.maths = loadQuestions("questions/maths.json");
-        allQuestions.addAll(history);
-        allQuestions.addAll(science);
-        allQuestions.addAll(maths);
+//        this.history = loadQuestions("questions/history.json");
+//        this.science = loadQuestions("questions/science.json");
+//        this.maths = loadQuestions("questions/maths.json");
+        // allQuestions.addAll(history);
+        // allQuestions.addAll(science);
+        // allQuestions.addAll(maths);
+        allQuestions.addAll(loadQuestions("questions/only-free-form.json"));
+        allQuestions.addAll(loadQuestions("questions/only-mcq.json"));
+        allQuestions.addAll(loadQuestions("questions/only-multi-choice.json"));
+        allQuestions.addAll(loadQuestions("questions/only-true-false.json"));
+        allQuestions.addAll(loadQuestions("questions/only_scale.json"));
     }
 
     private List<Question> loadQuestions(String fileName) {

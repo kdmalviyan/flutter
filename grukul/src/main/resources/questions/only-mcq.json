@@ -1,0 +1,34 @@
+[
+  {
+    "id": "1",
+    "className": "Class 1",
+    "subject": "History",
+    "chapter": "Famous Leaders",
+    "topic": "Mahatma Gandhi",
+    "question": "Who is known as the Father of the Nation in India?",
+    "questionType": "MCQ",
+    "difficulty": "EASY",
+    "options": ["Jawaharlal Nehru", "Mahatma Gandhi", "Subhas Chandra Bose", "Bhagat Singh"],
+    "correctAnswer": ["Mahatma Gandhi"],
+    "details": {
+      "explanation": "Mahatma Gandhi is known as the Father of the Nation for his role in India's independence movement.",
+      "hint": "Think about the leader who used non-violence."
+    }
+  },
+  {
+    "id": "2",
+    "className": "Class 1",
+    "subject": "History",
+    "chapter": "Famous Leaders",
+    "topic": "Jawaharlal Nehru",
+    "question": "Who was first Prime Minister of India?",
+    "questionType": "MCQ",
+    "difficulty": "EASY",
+    "options": ["Jawaharlal Nehru", "Mahatma Gandhi", "Subhas Chandra Bose", "Bhagat Singh"],
+    "correctAnswer": ["Mahatma Gandhi"],
+    "details": {
+      "explanation": "Prime Minister was first prime minister of India.",
+      "hint": "Think about the leader who used non-violence."
+    }
+  }
+]

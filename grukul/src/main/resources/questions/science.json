@@ -54,7 +54,7 @@
     "question": "Which planet is known as the Red Planet?",
     "questionType": "FREE_FORM_ANSWER",
     "difficulty": "EASY",
-    "answer": "Mars",
+    "correctAnswer": ["Mars"],
     "details": {
       "explanation": "Mars is called the Red Planet because of its reddish appearance.",
       "hint": "Think about the color of the planet."
@@ -85,7 +85,7 @@
     "question": "What sound does a cow make?",
     "questionType": "FREE_FORM_ANSWER",
     "difficulty": "EASY",
-    "answer": "Moo",
+    "correctAnswer": ["Moo"],
     "details": {
       "explanation": "Cows make a 'moo' sound.",
       "hint": "Think about what you hear on a farm."
@@ -130,7 +130,7 @@
     "question": "What is the shape of the Earth?",
     "questionType": "FREE_FORM_ANSWER",
     "difficulty": "EASY",
-    "answer": "Round",
+    "correctAnswer": ["Round"],
     "details": {
       "explanation": "The Earth is round, like a sphere.",
       "hint": "Think about pictures of the Earth from space."
@@ -161,7 +161,7 @@
     "question": "What is a baby cat called?",
     "questionType": "FREE_FORM_ANSWER",
     "difficulty": "EASY",
-    "answer": "Kitten",
+    "correctAnswer": ["Kitten"],
     "details": {
       "explanation": "A baby cat is called a kitten.",
       "hint": "Think about small, fluffy cats."
@@ -192,7 +192,7 @@
     "question": "How many colors are in a rainbow?",
     "questionType": "FREE_FORM_ANSWER",
     "difficulty": "EASY",
-    "answer": "7",
+    "correctAnswer": ["7"],
     "details": {
       "explanation": "A rainbow has seven colors: red, orange, yellow, green, blue, indigo, and violet.",
       "hint": "Think about the acronym ROYGBIV."
@@ -237,7 +237,7 @@
     "question": "Which flower is known for its thorns?",
     "questionType": "FREE_FORM_ANSWER",
     "difficulty": "EASY",
-    "answer": "Rose",
+    "correctAnswer": ["Rose"],
     "details": {
       "explanation": "Roses are known for their beautiful flowers and sharp thorns.",
       "hint": "Think about a flower often given on special occasions."
@@ -268,7 +268,7 @@
     "question": "Which organ pumps blood throughout the body?",
     "questionType": "FREE_FORM_ANSWER",
     "difficulty": "EASY",
-    "answer": "Heart",
+    "correctAnswer": ["Heart"],
     "details": {
       "explanation": "The heart is responsible for pumping blood to all parts of the body.",
       "hint": "Think about what keeps you alive."

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "2",
+    "className": "Class 1",
+    "subject": "History",
+    "chapter": "Famous Monuments",
+    "topic": "Red Fort",
+    "question": "Where is the Red Fort located?",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "EASY",
+    "answer": "Delhi",
+    "details": {
+      "explanation": "The Red Fort is located in Delhi and was built by Mughal Emperor Shah Jahan.",
+      "hint": "Think about the capital of India."
+    }
+  },
+  {
+    "id": "2",
+    "className": "Class 2",
+    "subject": "History",
+    "chapter": "Famous Monuments",
+    "topic": "Taj Mahal",
+    "question": "Where is the Taj Mahal located?",
+    "questionType": "FREE_FORM_ANSWER",
+    "difficulty": "EASY",
+    "answer": "Delhi",
+    "details": {
+      "explanation": "The Taj Mahal is located in Delhi and was built by Mughal Emperor Shah Jahan.",
+      "hint": "Think about the capital of India."
+    }
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "1",
+    "className": "Class 1",
+    "subject": "History",
+    "chapter": "Famous Leaders",
+    "topic": "Jawaharlal Nehru",
+    "question": "Choose 2 popular leaders of India during Indian Independence Struggle",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": ["Jawaharlal Nehru", "Mahatma Gandhi", "Narender Modi", "APJ Kalam"],
+    "correctAnswer": ["Mahatma Gandhi"],
+    "details": {
+      "explanation": "Prime Minister was first prime minister of India.",
+      "hint": "Think about the leader who used non-violence."
+    }
+  },
+  {
+    "id": "1",
+    "className": "Class 1",
+    "subject": "History",
+    "chapter": "Famous Leaders",
+    "topic": "Jawaharlal Nehru",
+    "question": "Choose 2 President of Independent India",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": ["Dr. Rajender Prasad", "Mahatma Gandhi", "Narender Modi", "APJ Kalam"],
+    "correctAnswer": ["Mahatma Gandhi"],
+    "details": {
+      "explanation": "Prime Minister was first prime minister of India.",
+      "hint": "Think about the leader who used non-violence."
+    }
+  }
+]
