@@ -68,7 +68,6 @@ public class QuizService {
         quizzes.add(mathsQuiz);
         quizzes.add(historyQuiz);
         quizzes.add(scienceQuiz);
-        System.out.println(quizzes);
     }
 
     public void populateQuizWithQuestions(Quiz quiz, String subject) {

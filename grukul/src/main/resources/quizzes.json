@@ -9,7 +9,7 @@
     "questionCount": 10,
     "averageScore": 75.5,
     "participants": 120,
-    "createdAt": "2023-10-01T10:00:00Z",
+    "createdAt": "2023-10-01T10:00:00Z"
   },
   {
     "id": "quiz-2",
@@ -21,7 +21,7 @@
     "questionCount": 15,
     "averageScore": 65.0,
     "participants": 85,
-    "createdAt": "2023-09-25T14:30:00Z",
+    "createdAt": "2023-09-25T14:30:00Z"
   },
   {
     "id": "quiz-3",
@@ -33,6 +33,6 @@
     "questionCount": 20,
     "averageScore": 50.0,
     "participants": 45,
-    "createdAt": "2023-09-20T08:15:00Z",
+    "createdAt": "2023-09-20T08:15:00Z"
   }
 ]

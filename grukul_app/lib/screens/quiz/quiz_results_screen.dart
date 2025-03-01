@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:confetti/confetti.dart'; // For confetti animation
 import 'package:mcq_learning_app/helper/app_colors.dart';
 import 'package:mcq_learning_app/helper/app_theme.dart';
-import 'package:mcq_learning_app/helper/quiz.dart';
+import 'package:mcq_learning_app/apis/quiz.dart';
 import 'package:mcq_learning_app/screens/quiz/quiz_questions_screen.dart'; // For retry quiz
 import 'package:mcq_learning_app/screens/home_screen.dart'; // For back to home
 
@@ -11,7 +11,7 @@ class QuizResultsScreen extends StatefulWidget {
   final Quiz quiz;
   final List<Map<String, dynamic>> questions;
   final int score;
-  final List<Map<String, dynamic>> userResponses; // Added userResponses
+  final List<Map<String, dynamic>> userResponses;
 
   const QuizResultsScreen({
     Key? key,
@@ -19,7 +19,7 @@ class QuizResultsScreen extends StatefulWidget {
     required this.quiz,
     required this.questions,
     required this.score,
-    required this.userResponses, // Added userResponses
+    required this.userResponses,
   }) : super(key: key);
 
   @override
@@ -134,21 +134,32 @@ class _QuizResultsScreenState extends State<QuizResultsScreen>
           // Content
           FadeTransition(
             opacity: _fadeAnimation,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // Score Summary
-                  Card(
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: SizedBox(
-                      width: double.infinity, // Make it full width
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // Score Summary Card
+                    Card(
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              AppColors.primaryColor,
+                              AppColors.secondaryColor
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                         child: Column(
                           children: [
                             Text(
@@ -156,16 +167,16 @@ class _QuizResultsScreenState extends State<QuizResultsScreen>
                               style: const TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.primaryColor,
+                                color: AppColors.white,
                               ),
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              '${widget.score} / $totalQuestions', // Fixed score display
+                              '${widget.score} / $totalQuestions',
                               style: const TextStyle(
                                 fontSize: 32,
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.primaryColor,
+                                color: AppColors.white,
                               ),
                             ),
                             const SizedBox(height: 10),
@@ -173,7 +184,7 @@ class _QuizResultsScreenState extends State<QuizResultsScreen>
                               'Rank $rank',
                               style: const TextStyle(
                                 fontSize: 18,
-                                color: AppColors.darkGrey,
+                                color: AppColors.white70,
                               ),
                             ),
                             const SizedBox(height: 10),
@@ -181,92 +192,103 @@ class _QuizResultsScreenState extends State<QuizResultsScreen>
                               'Percentage: ${percentage.toStringAsFixed(1)}%',
                               style: const TextStyle(
                                 fontSize: 18,
-                                color: AppColors.darkGrey,
+                                color: AppColors.white70,
                               ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
+                    const SizedBox(height: 30),
 
-                  // Congratulations Message
-                  Text(
-                    'Congratulations, you\'ve completed this quiz!',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.white,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Let\'s keep testing your knowledge by playing more quizzes!',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: AppColors.white70,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Explore More Button
-                  ElevatedButton(
-                    onPressed: () {
-                      // Navigate to explore more quizzes
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryColor,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 40, vertical: 15),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+                    // Congratulations Message
+                    Text(
+                      '🎉 Congratulations! 🎉',
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.white,
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                    child: const Text(
-                      'Explore More',
-                      style: TextStyle(fontSize: 18, color: AppColors.white),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-
-                  // Retry Quiz Button
-                  ElevatedButton(
-                    onPressed: _retryQuiz,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.secondaryColor,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 40, vertical: 15),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+                    const SizedBox(height: 10),
+                    Text(
+                      'You\'ve completed the quiz successfully!',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: AppColors.white70,
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                    child: const Text(
-                      'Retry Quiz',
-                      style: TextStyle(fontSize: 18, color: AppColors.white),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
+                    const SizedBox(height: 30),
 
-                  // Back to Home Button
-                  ElevatedButton(
-                    onPressed: _backToHome,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.errorColor,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 40, vertical: 15),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
+                    // Action Buttons
+                    Column(
+                      children: [
+                        // Explore More Button
+                        ElevatedButton(
+                          onPressed: () {
+                            // Navigate to explore more quizzes
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryColor,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 40, vertical: 15),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            elevation: 5,
+                          ),
+                          child: const Text(
+                            'Explore More',
+                            style:
+                                TextStyle(fontSize: 18, color: AppColors.white),
+                          ),
+                        ),
+                        const SizedBox(height: 15),
+
+                        // Retry Quiz Button
+                        ElevatedButton(
+                          onPressed: _retryQuiz,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.secondaryColor,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 40, vertical: 15),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            elevation: 5,
+                          ),
+                          child: const Text(
+                            'Retry Quiz',
+                            style:
+                                TextStyle(fontSize: 18, color: AppColors.white),
+                          ),
+                        ),
+                        const SizedBox(height: 15),
+
+                        // Back to Home Button
+                        ElevatedButton(
+                          onPressed: _backToHome,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.errorColor,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 40, vertical: 15),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            elevation: 5,
+                          ),
+                          child: const Text(
+                            'Back to Home',
+                            style:
+                                TextStyle(fontSize: 18, color: AppColors.white),
+                          ),
+                        ),
+                      ],
                     ),
-                    child: const Text(
-                      'Back to Home',
-                      style: TextStyle(fontSize: 18, color: AppColors.white),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

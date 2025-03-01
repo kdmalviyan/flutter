@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mcq_learning_app/helper/app_colors.dart';
-import 'package:mcq_learning_app/helper/quiz.dart';
+import 'package:mcq_learning_app/apis/quiz.dart';
 import 'package:mcq_learning_app/screens/quiz/quiz_rules_guidelines_screen.dart';
 
 class QuizScreen extends StatelessWidget {

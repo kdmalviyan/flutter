@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:mcq_learning_app/apis/questions.dart';
+import 'package:mcq_learning_app/apis/quizzes_apis.dart';
 import 'package:mcq_learning_app/helper/app_colors.dart';
 import 'package:mcq_learning_app/helper/app_theme.dart';
-import 'package:mcq_learning_app/helper/quiz.dart';
+import 'package:mcq_learning_app/apis/quiz.dart';
 import 'package:mcq_learning_app/screens/quiz/question_type_widget/free_form_answer_question_widget.dart';
 import 'package:mcq_learning_app/screens/quiz/question_type_widget/mcq_question_widget.dart';
 import 'package:mcq_learning_app/screens/quiz/question_type_widget/multiple_choice_question_widget.dart';
@@ -49,28 +49,12 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
     super.dispose();
   }
 
-  QuestionType _getQuestionTypeFromString(String type) {
-    switch (type) {
-      case "MCQ":
-        return QuestionType.MCQ;
-      case "TRUE_FALSE":
-        return QuestionType.TRUE_FALSE;
-      case "MULTIPLE_CHOICE":
-        return QuestionType.MULTIPLE_CHOICE;
-      case "SCALE_ANSWER":
-        return QuestionType.SCALE_ANSWER;
-      case "FREE_FORM_ANSWER":
-        return QuestionType.FREE_FORM_ANSWER;
-      default:
-        throw ArgumentError("Unknown question type: $type");
-    }
-  }
-
   void _initializeQuestions() {
     if (mounted) {
       setState(() {
         _questions = widget.quiz.questions.map((question) {
           return {
+            'id': question['id'],
             'question': question['question'] ?? 'No question provided',
             'options':
                 (question['options'] as List<dynamic>?)?.cast<String>() ?? [],
@@ -78,7 +62,7 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
                 (question['correctAnswer'] as List<dynamic>?)?.cast<String>() ??
                     [],
             'type':
-                _getQuestionTypeFromString(question['questionType'] ?? 'MCQ'),
+                Question.parseQuestionType(question['questionType'] ?? 'MCQ'),
             'details': question['details'] ?? {},
             'difficulty': question['difficulty'] ?? 'UNKNOWN',
           };
@@ -164,29 +148,21 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
   }
 
   Future<void> _submitResponses() async {
-    final url = Uri.parse('https://your-backend-api.com/submit-responses');
     try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${widget.token}',
-        },
-        body: jsonEncode({
-          'quizId': widget.quiz.id,
-          'responses': _selectedAnswers
-              .asMap()
-              .entries
-              .map((entry) => {
-                    'question': _questions[entry.key]['question'],
-                    'selectedAnswer': entry.value,
-                    'correctAnswer': _questions[entry.key]['correctAnswer'],
-                  })
-              .toList(),
-        }),
-      );
-
-      if (response.statusCode != 200) {
+      final response = await QuizzesApis.submitQuizAnswers(
+          widget.token,
+          widget.quiz.id,
+          _selectedAnswers,
+          _questions); // Pass the correct list of questions
+      if (response.statusCode == 200) {
+        // Handle error
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Your response submitted successfully.'),
+            backgroundColor: AppColors.successColor,
+          ),
+        );
+      } else {
         // Handle error
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
